@@ -1,6 +1,6 @@
 .about-project {
   background-color: #202020;
-  height: 608px;
+  min-height: 608px;
 }
 .about-project__body {
   height: 100%;
