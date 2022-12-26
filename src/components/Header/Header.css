@@ -1,0 +1,41 @@
+.header {
+  background-color: #073042;
+  min-height: 74px;
+}
+.header__body {
+  padding: 18px 70px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header__logo {
+  width: 38px;
+  height: 38px;
+}
+.header__buttons {
+  display: flex;
+  align-items: center;
+}
+.header__button {
+  padding: 8px 20px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.33;
+  border-radius: 3px;
+}
+.header__button:not(:last-of-type) {
+  margin-right: 30px;
+}
+.header__button-register {
+  background-color: transparent;
+  color: #ffffff;
+}
+.header__button-login {
+  background-color: #3ddc84;
+  color: #000000;
+}
