@@ -1,14 +1,10 @@
-import AboutProject from '../Main/AboutProject/AboutProject';
-import Promo from '../Main/Promo/Promo';
-import Techs from '../Main/Techs/Techs';
+import Main from '../Main/Main';
 import './App.css';
 
 function App() {
   return (
     <div className="app">
-      <Promo />
-      <AboutProject />
-      <Techs />
+      <Main />
     </div>
   );
 }
