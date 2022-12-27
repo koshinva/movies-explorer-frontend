@@ -39,3 +39,20 @@
   background-color: #3ddc84;
   color: #000000;
 }
+@media screen and (max-width: 1100px) {
+  .header__body {
+    padding: 18px 30px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .header__body {
+    padding: 18px 14px;
+  }
+  .header__button {
+    font-size: 10px;
+    padding: 5px 12px;
+  }
+  .header__button:not(:last-of-type) {
+    margin-right: 14px;
+  }
+}
