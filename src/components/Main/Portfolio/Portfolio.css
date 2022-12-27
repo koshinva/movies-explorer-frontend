@@ -4,6 +4,7 @@
   line-height: 1.1;
   color: #8b8b8b;
   margin: 0;
+  margin-bottom: 50px;
 }
 .portfolio__list-works {
   list-style: none;
@@ -44,4 +45,24 @@
 }
 .portfolio__work-link:hover {
   opacity: 0.7;
+}
+@media screen and (max-width: 1100px) {
+  .portfolio__work-name {
+    font-size: 28px;
+  }
+  .portfolio__work-link {
+    font-size: 28px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .portfolio__title {
+    font-size: 14px;
+    margin-bottom: 40px;
+  }
+  .portfolio__work-name {
+    font-size: 18px;
+  }
+  .portfolio__work-link {
+    font-size: 18px;
+  }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import Portfolio from '../Portfolio/Portfolio';
+import photo from '../../../images/about-me/photo-student.jpg';
 import './AboutMe.css';
 
 function AboutMe() {
@@ -18,11 +19,16 @@ function AboutMe() {
               "веб-разработке" в Яндекс Практикум. Люблю читать книги, смотреть кино, гулять и
               узнавать новое.
             </p>
-            <a href="#" className="about-me__link-github">
+            <a
+              href="https://github.com/koshinva"
+              target="_blank"
+              rel="noreferrer"
+              className="about-me__link-github"
+            >
               Github
             </a>
           </div>
-          <img className="about-me__photo" src="#" alt="Фото студента" />
+          <img className="about-me__photo" src={photo} alt="Фото студента" />
         </div>
         <Portfolio />
       </div>

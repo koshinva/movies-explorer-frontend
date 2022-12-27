@@ -8,19 +8,34 @@ function Portfolio() {
       <ul className="portfolio__list-works">
         <li className="portfolio__work">
           <p className="portfolio__work-name">Статичный сайт</p>
-          <a href="#" className="portfolio__work-link">
+          <a
+            href="https://github.com/koshinva/how-to-learn"
+            target="_blank"
+            rel="noreferrer"
+            className="portfolio__work-link"
+          >
             ↗
           </a>
         </li>
         <li className="portfolio__work">
           <p className="portfolio__work-name">Адаптивный сайт</p>
-          <a href="#" className="portfolio__work-link">
+          <a
+            href="https://github.com/koshinva/russian-travel"
+            target="_blank"
+            rel="noreferrer"
+            className="portfolio__work-link"
+          >
             ↗
           </a>
         </li>
         <li className="portfolio__work">
           <p className="portfolio__work-name">Одностраничное приложение</p>
-          <a href="#" className="portfolio__work-link">
+          <a
+            href="https://github.com/koshinva/react-mesto-api-full"
+            target="_blank"
+            rel="noreferrer"
+            className="portfolio__work-link"
+          >
             ↗
           </a>
         </li>
