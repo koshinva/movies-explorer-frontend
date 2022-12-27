@@ -5,7 +5,7 @@ function Techs() {
   return (
     <div className="techs">
       <div className="techs__body">
-        <h2 className="title techs__title">О проекте</h2>
+        <h2 className="title techs__title">Технологии</h2>
         <div className="techs__description">
           <h3 className="techs__main-text">7 технологий</h3>
           <p className="techs__text">
