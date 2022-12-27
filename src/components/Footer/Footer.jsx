@@ -10,12 +10,22 @@ function Footer() {
           <p className="footer__copyright">© 2020</p>
           <ul className="footer__list-links">
             <li className="footer__list-item">
-              <a href="#" className="footer__link">
+              <a
+                href="https://practicum.yandex.ru"
+                target="_blank"
+                rel="noreferrer"
+                className="footer__link"
+              >
                 Яндекс.Практикум
               </a>
             </li>
             <li className="footer__list-item">
-              <a href="#" className="footer__link">
+              <a
+                href="https://github.com/koshinva/movies-explorer-frontend"
+                target="_blank"
+                rel="noreferrer"
+                className="footer__link"
+              >
                 Github
               </a>
             </li>
