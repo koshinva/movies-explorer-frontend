@@ -6,4 +6,5 @@
   box-sizing: border-box;
   color: #ffffff;
   background-color: #202020;
+  overflow: hidden;
 }
