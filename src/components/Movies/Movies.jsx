@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import SearchForm from './SearchForm/SearchForm';
 
 function Movies() {
   return (
-    <div>Movies</div>
-  )
+    <div className="movies">
+      <SearchForm />
+    </div>
+  );
 }
 
-export default Movies
+export default Movies;
