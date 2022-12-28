@@ -27,6 +27,11 @@
   font-size: 12px;
   line-height: 1.33;
   border-radius: 3px;
+  transition: all 0.4s;
+  cursor: pointer;
+}
+.header__button:hover {
+  transform: scale(1.04);
 }
 .header__button:not(:last-of-type) {
   margin-right: 30px;
@@ -35,9 +40,15 @@
   background-color: transparent;
   color: #ffffff;
 }
+.header__button-register:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
 .header__button-login {
   background-color: #3ddc84;
   color: #000000;
+}
+.header__button-login:hover {
+  opacity: 0.7;
 }
 @media screen and (max-width: 1100px) {
   .header__body {
