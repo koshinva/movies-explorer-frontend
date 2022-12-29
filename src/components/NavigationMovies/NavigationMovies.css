@@ -1,0 +1,30 @@
+.navigation-movies {
+  display: flex;
+  align-items: center;
+}
+.navigation-movies__link {
+  font-size: 14px;
+  line-height: 18px;
+  color: #ffffff;
+  text-decoration: none;
+  line-height: 1.14;
+  transition: all 0.4s;
+}
+.navigation-movies__link:hover {
+  opacity: 0.7;
+}
+.navigation-movies__link-movies {
+  margin-right: 20px;
+  font-weight: 500;
+}
+.navigation-movies__link-saved {
+  margin-right: 50px;
+}
+.navigation-movies__link-account {
+  padding: 8px 20px;
+  border-radius: 20px;
+  background-color: #2f2f2f;
+}
+.navigation-movies__link-account:hover {
+  transform: scale(1.04);
+}
