@@ -1,0 +1,40 @@
+.movies-list {
+  min-height: 1280px;
+}
+.movies-list__body {
+  padding: 70px 70px 80px;
+}
+.movies-list__list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: grid;
+  column-gap: 20px;
+  row-gap: 38px;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  justify-content: center;
+}
+.movies-list__item {
+  min-height: 230px;
+}
+.movies-list__button-more {
+  margin-top: 50px;
+  width: 100%;
+  min-height: 36px;
+  background-color: #2f2f2f;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  padding: 5px 10px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.4s;
+  border-radius: 6px;
+}
+.movies-list__button-more:hover {
+  opacity: 0.7;
+}

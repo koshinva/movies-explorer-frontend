@@ -7,7 +7,7 @@ function Footer() {
       <div className="footer__body">
         <h4 className="footer__text">Учебный проект Яндекс.Практикум х BeatFilm.</h4>
         <div className="footer__main">
-          <p className="footer__copyright">© 2020</p>
+          <p className="footer__copyright">© 2023</p>
           <ul className="footer__list-links">
             <li className="footer__list-item">
               <a
