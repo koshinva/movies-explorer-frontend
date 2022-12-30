@@ -56,3 +56,20 @@
   bottom: 0;
   left: 0;
 }
+.movies-card__icon-action_type_dislike {
+  opacity: 0;
+}
+.movies-card:hover .movies-card__icon-action_type_dislike {
+  opacity: 1;
+}
+@media screen and (max-width: 767px) {
+  .movies-card__name {
+    font-size: 12px;
+  }
+  .movies-card__icon-action {
+    margin-left: 36px;
+  }
+  .movies-card__duration {
+    font-size: 10px;
+  }
+}

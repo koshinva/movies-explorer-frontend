@@ -9,7 +9,7 @@ function MoviesCard({ name, duration, image }) {
       <div className="movies-card__info">
         <h3 className="movies-card__name">{name}</h3>
         <img
-          className="movies-card__icon-action"
+          className="movies-card__icon-action movies-card__icon-action_type_dislike"
           src={card_icon_dislike}
           alt="Иконка удаления из сохраненных"
         />
