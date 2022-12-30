@@ -48,3 +48,8 @@
   font-size: 12px;
   line-height: 1.5;
 }
+@media screen and (max-width: 767px) {
+  .checkbox-filter__text-filter  {
+    font-size: 11px;
+  }
+}
