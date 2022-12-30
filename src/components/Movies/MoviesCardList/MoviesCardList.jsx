@@ -8,9 +8,9 @@ function MoviesCardList() {
     <div className="movies-list">
       <div className="movies-list__body">
         <ul className="movies-list__list">
-          {moviesData.map((d, i) => (
+          {moviesData.map((movie, i) => (
             <li key={i} className="movies-list__item">
-              <MoviesCard {...d} />
+              <MoviesCard {...movie} />
             </li>
           ))}
         </ul>

@@ -15,7 +15,7 @@ function MoviesCard({ name, duration, image, liked }) {
         <h3 className="movies-card__name">{name}</h3>
         <img
           onClick={handleLikeClick}
-          className="movies-card__icon-like"
+          className="movies-card__icon-action"
           src={like ? card_icon_liked : card_icon_unliked}
           alt="Иконка лайка"
         />

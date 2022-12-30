@@ -34,17 +34,17 @@
   line-height: 1.23;
   margin: 0;
 }
-.movies-card__icon-like {
+.movies-card__icon-action {
   margin-left: 20px;
   width: 24px;
   height: 24px;
   cursor: pointer;
   transition: all 0.4s;
 }
-.movies-card__icon-like:hover {
+.movies-card__icon-action:hover {
   opacity: 0.7;
 }
-.movies-card__icon-like:active {
+.movies-card__icon-action:active {
   transform: scale(1.5);
 }
 .movies-card__duration {

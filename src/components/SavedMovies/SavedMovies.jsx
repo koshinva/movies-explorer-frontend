@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import SearchForm from '../Movies/SearchForm/SearchForm';
+import MoviesCardList from './MoviesCardList/MoviesCardList';
 
 function SavedMovies() {
   return (
-    <div>SavedMovies</div>
-  )
+    <div className="saved-movies">
+      <SearchForm />
+      <MoviesCardList />
+    </div>
+  );
 }
 
-export default SavedMovies
+export default SavedMovies;
