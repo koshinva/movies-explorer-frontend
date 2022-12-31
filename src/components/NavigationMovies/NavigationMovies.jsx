@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './NavigationMovies.css';
 import close_icon from '../../images/burger-menu/close-icon.svg';
 
@@ -11,6 +11,11 @@ function NavigationMovies() {
   const handleClickCloseBurgerMenu = () => {
     setOpenBurgerMenu(false);
   };
+  const classNameBurgerLink = ({ isActive }) =>
+    isActive
+      ? 'navigation-movies__burger-menu-link navigation-movies__burger-menu-link_active'
+      : 'navigation-movies__burger-menu-link';
+
   return (
     <div className="navigation-movies">
       <ul className="navigation-movies__list-link">
@@ -41,50 +46,46 @@ function NavigationMovies() {
         <div className="navigation-movies__burger-menu">
           <ul className="navigation-movies__burger-menu-list">
             <li className="navigation-movies__burger-menu-item">
-              <Link
-                to="/"
-                className="navigation-movies__burger-menu-link"
-                onClick={handleClickCloseBurgerMenu}
-              >
+              <NavLink to="/" className={classNameBurgerLink} onClick={handleClickCloseBurgerMenu}>
                 Главная
-              </Link>
+              </NavLink>
             </li>
             <li className="navigation-movies__burger-menu-item">
-              <Link
+              <NavLink
                 to="movies"
-                className="navigation-movies__burger-menu-link"
+                className={classNameBurgerLink}
                 onClick={handleClickCloseBurgerMenu}
               >
                 Фильмы
-              </Link>
+              </NavLink>
             </li>
             <li className="navigation-movies__burger-menu-item">
-              <Link
+              <NavLink
                 to="saved-movies"
-                className="navigation-movies__burger-menu-link"
+                className={classNameBurgerLink}
                 onClick={handleClickCloseBurgerMenu}
               >
                 Сохранённые фильмы
-              </Link>
+              </NavLink>
             </li>
             <li className="navigation-movies__burger-menu-item">
-              <Link
+              <NavLink
                 to="profile"
                 className="navigation-movies__burger-menu-link navigation-movies__link-account"
                 onClick={handleClickCloseBurgerMenu}
               >
                 Аккаунт
-              </Link>
+              </NavLink>
             </li>
-            <button type="button" className="navigation-movies__burger-menu-close-button">
-              <img
-                className="navigation-movies__burger-menu-close-icon"
-                src={close_icon}
-                alt="Иконка закрытия меню навигации"
-                onClick={handleClickCloseBurgerMenu}
-              />
-            </button>
           </ul>
+          <button type="button" className="navigation-movies__burger-menu-close-button">
+            <img
+              className="navigation-movies__burger-menu-close-icon"
+              src={close_icon}
+              alt="Иконка закрытия меню навигации"
+              onClick={handleClickCloseBurgerMenu}
+            />
+          </button>
         </div>
       )}
     </div>
