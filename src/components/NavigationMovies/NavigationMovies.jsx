@@ -43,8 +43,13 @@ function NavigationMovies() {
         <span></span>
       </button>
       {openBurgerMenu && (
-        <div className="navigation-movies__burger-menu">
-          <ul className="navigation-movies__burger-menu-list">
+        <div className="navigation-movies__burger-menu" onClick={handleClickCloseBurgerMenu}>
+          <ul
+            className="navigation-movies__burger-menu-list"
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
             <li className="navigation-movies__burger-menu-item">
               <NavLink to="/" className={classNameBurgerLink} onClick={handleClickCloseBurgerMenu}>
                 Главная
