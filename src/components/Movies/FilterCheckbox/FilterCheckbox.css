@@ -34,7 +34,7 @@
   position: absolute;
   transform: translateX(2px);
   top: 2px;
-  z-index: 10;
+  z-index: 3;
   border-radius: 100%;
   transition: all 0.4s;
 }
