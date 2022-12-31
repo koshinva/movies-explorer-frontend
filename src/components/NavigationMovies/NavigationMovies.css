@@ -185,4 +185,21 @@
   .navigation-movies__burger-menu-link_active::after {
     bottom: -7px;
   }
+  .navigation-movies__burger-button {
+    width: 40px;
+    height: 43px;
+    padding: 12.5px 9px;
+  }
+  .navigation-movies__burger-button:after,
+  .navigation-movies__burger-button:before,
+  .navigation-movies__burger-button span {
+    width: 22px;
+    height: 2.5px;
+  }
+  .navigation-movies__burger-button:after {
+    top: 12.5px;
+  }
+  .navigation-movies__burger-button:before {
+    bottom: 10px;
+  }
 }
