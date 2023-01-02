@@ -1,7 +1,7 @@
-.register {
+.form-auth {
   min-height: 100%;
 }
-.register__body {
+.form-auth__body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -11,36 +11,36 @@
   width: 396px;
   margin: 0 auto;
 }
-.register__welcome-title {
+.form-auth__welcome-title {
   font-weight: 500;
   font-size: 24px;
   line-height: 1.2;
   margin: 40px 0;
 }
-.register__form {
+.form-auth__form {
   width: 100%;
 }
-.register__input-list {
+.form-auth__input-list {
   list-style: none;
   margin: 0;
   padding: 0;
   margin-bottom: 152px;
 }
-.register__input-item {
+.form-auth__input-item {
   display: flex;
   flex-direction: column;
   position: relative;
 }
-.register__input-item:not(:last-of-type) {
+.form-auth__input-item:not(:last-of-type) {
   margin-bottom: 24px;
 }
-.register__label {
+.form-auth__label {
   font-size: 10px;
   line-height: 1.2;
   color: #8b8b8b;
   margin-bottom: 5px;
 }
-.register__input {
+.form-auth__input {
   min-height: 27px;
   background: transparent;
   padding: 0;
@@ -53,13 +53,13 @@
   outline: none;
   box-sizing: border-box;
 }
-.register__input:focus {
+.form-auth__input:focus {
   border-bottom: 1px solid #4285f4;
 }
-.register__input_error {
+.form-auth__input_error {
   color: #ee3465;
 }
-.register__span-error {
+.form-auth__span-error {
   position: absolute;
   bottom: -16px;
   left: 0;
@@ -68,7 +68,7 @@
   line-height: 1.2;
   display: block;
 }
-.register__button {
+.form-auth__button {
   min-height: 45px;
   width: 100%;
   padding: 10px 15px;
@@ -83,48 +83,48 @@
   cursor: pointer;
   transition: all 0.4s;
 }
-.register__button:hover {
+.form-auth__button:hover {
   opacity: 0.7;
   transform: scale(1.03);
 }
-.register__already-text {
+.form-auth__already-text {
   align-self: center;
   font-size: 14px;
   line-height: 1.21;
   color: #8b8b8b;
 }
-.register__link-login {
+.form-auth__link-to {
   color: #4285f4;
   margin-left: 6px;
   text-decoration: none;
   transition: all 0.4s;
 }
-.register__link-login:hover {
+.form-auth__link-to:hover {
   opacity: 0.7;
 }
 @media screen and (max-width: 900px) {
-  .register__body {
+  .form-auth__body {
     padding-top: 232px;
     padding-bottom: 232px;
   }
 }
 @media screen and (max-width: 767px) {
-  .register__body {
+  .form-auth__body {
     align-items: center;
     padding-top: 56px;
     padding-bottom: 30px;
     width: 260px;
   }
-  .register__welcome-title {
+  .form-auth__welcome-title {
     margin: 50px 0 80px;
   }
-  .register__input-list {
+  .form-auth__input-list {
     margin-bottom: 240px;
   }
-  .register__button {
+  .form-auth__button {
     font-size: 12px;
   }
-  .register__already-text {
+  .form-auth__already-text {
     font-size: 12px;
   }
 }
