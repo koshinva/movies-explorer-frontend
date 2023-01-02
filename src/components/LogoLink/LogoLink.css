@@ -1,0 +1,12 @@
+.logo-link__link {
+  width: 38px;
+  height: 38px;
+  transition: all 0.3s;
+}
+.logo-link__link:hover {
+  transform: rotate(360deg);
+}
+.logo-link__logo {
+  width: 100%;
+  height: 100%;
+}
