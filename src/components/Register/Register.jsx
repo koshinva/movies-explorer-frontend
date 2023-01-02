@@ -1,8 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import FormAuth from '../FormAuth/FormAuth';
-// import LogoLink from '../LogoLink/LogoLink';
-import './Register.css';
 
 function Register() {
   return (
