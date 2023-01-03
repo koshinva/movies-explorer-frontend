@@ -7,6 +7,7 @@ import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import './App.css';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         </Route>
         <Route path="signup" element={<Register />} />
         <Route path="signin" element={<Login />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );
