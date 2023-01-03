@@ -6,12 +6,9 @@
   padding: 100px 70px;
   height: 100%;
 }
-.techs__title {
-  margin-bottom: 114px;
-}
 .techs__description {
   max-width: 600px;
-  margin: 0 auto 100px;
+  margin: 114px auto 100px;
 }
 .techs__main-text {
   font-size: 50px;
@@ -61,8 +58,8 @@
   .techs__body {
     padding: 90px 50px;
   }
-  .techs__title {
-    margin-bottom: 104px;
+  .techs__description {
+    margin-top: 104px;
   }
   .techs__main-text {
     margin-bottom: 22px;
@@ -73,7 +70,7 @@
     font-size: 12px;
   }
   .techs__description {
-    margin: 0 auto 83px;
+    margin: 104px auto 83px;
   }
   .techs__list-labels {
     grid-auto-rows: 57px;
@@ -92,12 +89,6 @@
   .techs__list-labels {
     grid-template-columns: repeat(auto-fill, minmax(84px, 90px));
   }
-  .techs__title {
-    margin-bottom: 89px;
-  }
-  .techs__title::before {
-    background-color: #000000;
-  }
   .techs__main-text {
     font-size: 30px;
     margin-bottom: 24px;
@@ -107,6 +98,6 @@
     max-width: 292px;
   }
   .techs__description {
-    margin: 0 auto 50px;
+    margin: 89px auto 50px;
   }
 }

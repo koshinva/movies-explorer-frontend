@@ -2,12 +2,13 @@ import React from 'react';
 import Portfolio from '../Portfolio/Portfolio';
 import photo from '../../../images/about-me/photo-student.jpg';
 import './AboutMe.css';
+import Title from '../Title/Title';
 
 function AboutMe() {
   return (
     <div className="about-me">
       <div className="about-me__body">
-        <h2 className="title about-me__title">Студент</h2>
+        <Title>Студент</Title>
         <div className="about-me__info">
           <div className="about-me__info-description">
             <h3 className="about-me__name">Валерий</h3>

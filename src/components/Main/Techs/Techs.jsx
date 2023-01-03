@@ -1,11 +1,12 @@
 import React from 'react';
+import Title from '../Title/Title';
 import './Techs.css';
 
 function Techs() {
   return (
     <div className="techs">
       <div className="techs__body">
-        <h2 className="title techs__title">Технологии</h2>
+        <Title bgBlack="true">Технологии</Title>
         <div className="techs__description">
           <h3 className="techs__main-text">7 технологий</h3>
           <p className="techs__text">

@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import Layout from '../Layout';
+import Layout from '../Layout/Layout';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
