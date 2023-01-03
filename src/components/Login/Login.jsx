@@ -21,6 +21,7 @@ function Login() {
             id="email"
             name="email"
             autocomplete="off"
+            required
             value="pochta@yandex.ru"
           />
         </li>
@@ -33,6 +34,7 @@ function Login() {
             className="form-auth__input"
             id="password"
             name="password"
+            required
             autocomplete="off"
           />
         </li>

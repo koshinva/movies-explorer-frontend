@@ -21,6 +21,7 @@ function Register() {
             id="user-name"
             name="username"
             autocomplete="off"
+            required
             value="Валерий"
           />
         </li>
@@ -34,6 +35,7 @@ function Register() {
             id="email"
             name="email"
             autocomplete="off"
+            required
             value="pochta@yandex.ru"
           />
         </li>
@@ -47,6 +49,7 @@ function Register() {
             id="password"
             name="password"
             autocomplete="off"
+            required
             value="some-password"
           />
           <span className="form-auth__span-error">Что-то пошло не так...</span>
