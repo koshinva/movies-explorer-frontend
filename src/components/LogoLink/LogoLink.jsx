@@ -5,9 +5,11 @@ import './LogoLink.css';
 
 function LogoLink() {
   return (
-    <Link to="/" className="logo-link__link">
-      <img src={logo} alt="Логотип проекта" className="logo-link__logo" />
-    </Link>
+    <div className="logo-link">
+      <Link to="/" className="logo-link__link">
+        <img src={logo} alt="Логотип проекта" className="logo-link__logo" />
+      </Link>
+    </div>
   );
 }
 
