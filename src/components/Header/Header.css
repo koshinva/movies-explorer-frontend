@@ -1,6 +1,7 @@
 .header {
   background-color: #202020;
   min-height: 74px;
+  max-width: 100%;
 }
 .header_location_main-page {
   background-color: #073042;

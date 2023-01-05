@@ -6,7 +6,7 @@ import Title from '../Title/Title';
 
 function AboutMe() {
   return (
-    <div className="about-me">
+    <section className="about-me">
       <div className="about-me__body">
         <Title>Студент</Title>
         <div className="about-me__info">
@@ -33,7 +33,7 @@ function AboutMe() {
         </div>
         <Portfolio />
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -9,9 +9,9 @@ function Layout() {
   return (
     <>
       <Header />
-      <div className="main">
+      <main className="main">
         <Outlet />
-      </div>
+      </main>
       {pathname !== '/profile' && <Footer />}
     </>
   );

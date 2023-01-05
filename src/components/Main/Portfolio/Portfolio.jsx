@@ -38,15 +38,6 @@ function Portfolio() {
             <p className="portfolio__work-name">Одностраничное приложение</p>
             <span className="portfolio__work-icon">↗</span>
           </a>
-          {/* <p className="portfolio__work-name">Одностраничное приложение</p>
-          <a
-            href="https://github.com/koshinva/react-mesto-api-full"
-            target="_blank"
-            rel="noreferrer"
-            className="portfolio__work-link"
-          >
-            ↗
-          </a> */}
         </li>
       </ul>
     </div>

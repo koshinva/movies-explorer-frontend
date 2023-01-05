@@ -1,5 +1,6 @@
 .form-auth {
-  min-height: 100%;
+  margin: 0 auto;
+  max-width: 396px;
 }
 .form-auth__body {
   display: flex;
@@ -8,8 +9,6 @@
   justify-content: space-between;
   padding-top: 70px;
   padding-bottom: 70px;
-  width: 396px;
-  margin: 0 auto;
 }
 .form-auth__welcome-title {
   font-weight: 500;
@@ -109,11 +108,13 @@
   }
 }
 @media screen and (max-width: 767px) {
+  .form-auth {
+    max-width: 260px;
+  }
   .form-auth__body {
     align-items: center;
     padding-top: 56px;
     padding-bottom: 30px;
-    width: 260px;
   }
   .form-auth__welcome-title {
     margin: 50px 0 80px;

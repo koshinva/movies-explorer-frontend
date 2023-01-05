@@ -4,7 +4,7 @@ import './Techs.css';
 
 function Techs() {
   return (
-    <div className="techs">
+    <section className="techs">
       <div className="techs__body">
         <Title bgBlack="true">Технологии</Title>
         <div className="techs__description">
@@ -23,7 +23,7 @@ function Techs() {
           <li className="techs__label">mongoDB</li>
         </ul>
       </div>
-    </div>
+    </section>
   );
 }
 
