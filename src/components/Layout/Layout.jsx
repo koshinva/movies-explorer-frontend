@@ -9,7 +9,7 @@ function Layout() {
   return (
     <>
       <Header />
-      <div className="layout__container">
+      <div className="main">
         <Outlet />
       </div>
       {pathname !== '/profile' && <Footer />}
