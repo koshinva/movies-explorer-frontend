@@ -13,12 +13,13 @@ function MoviesCard({ name, duration, image, liked }) {
       <img className="movies-card__image" src={image} alt={name} />
       <div className="movies-card__info">
         <h3 className="movies-card__name">{name}</h3>
-        <img
-          onClick={handleLikeClick}
-          className="movies-card__icon-action"
-          src={like ? card_icon_liked : card_icon_unliked}
-          alt="Иконка лайка"
-        />
+        <button type="button" className="movies-card__button" onClick={handleLikeClick}>
+          <img
+            className="movies-card__icon-action"
+            src={like ? card_icon_liked : card_icon_unliked}
+            alt="Иконка лайка"
+          />
+        </button>
       </div>
       <p className="movies-card__duration">{duration}</p>
     </div>
