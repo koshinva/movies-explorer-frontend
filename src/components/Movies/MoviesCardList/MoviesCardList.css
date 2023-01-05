@@ -52,11 +52,13 @@
     column-gap: 30px;
     row-gap: 30px;
   }
-  .movies-list__item {
-    min-height: 269px;
-  }
   .movies-list__item.movies-list__item_location_movies:nth-child(n + 9) {
     display: none;
+  }
+}
+@media screen and (max-width: 850px) {
+  .movies-list__item {
+    min-height: 269px;
   }
 }
 @media screen and (max-width: 767px) {
