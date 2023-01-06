@@ -1,0 +1,128 @@
+.about-project {
+  background-color: #202020;
+  min-height: 608px;
+}
+.about-project__body {
+  height: 100%;
+  padding: 110px 70px 141px;
+}
+.about-project__info {
+  margin-top: 94px;
+  margin-bottom: 110px;
+}
+.info-about {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.info-about__block {
+  max-width: 550px;
+}
+.info-about__title {
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -4%;
+  font-weight: 400;
+  margin: 0;
+  margin-bottom: 26px;
+}
+.info-about__description {
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0;
+}
+.about-project__weeks {
+  width: 100%;
+  height: 36px;
+  display: flex;
+}
+.about-project__weeks-part {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.about-project__weeks-part::before {
+  content: '';
+  position: absolute;
+  bottom: -31px;
+  color: #8b8b8b;
+  font-size: 14px;
+  line-height: 1.2;
+}
+.about-project__weeks-part_bgcolor_green {
+  flex: 0 1 calc(100% / 5);
+  background-color: #3ddc84;
+  color: #000000;
+}
+.about-project__weeks-part_bgcolor_green::before {
+  content: 'Back-end';
+}
+.about-project__weeks-part_bgcolor_darkgrey {
+  flex: 0 1 calc((100% / 5) * 4);
+  background-color: #303030;
+}
+.about-project__weeks-part_bgcolor_darkgrey::before {
+  content: 'Front-end';
+}
+.about-project__text-week {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+@media screen and (max-width: 1200px) {
+  .info-about__block {
+    max-width: 400px;
+  }
+}
+@media screen and (max-width: 1100px) {
+  .about-project {
+    min-height: 585px;
+  }
+  .about-project__body {
+    padding: 90px 50px 121px;
+  }
+}
+@media screen and (max-width: 950px) {
+  .info-about__block {
+    max-width: 319px;
+  }
+  .info-about__description {
+    font-size: 12px;
+  }
+  .about-project__info {
+    margin-bottom: 93px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .about-project__body {
+    padding: 70px 18px 93px;
+  }
+  .about-project__info {
+    margin-top: 89px;
+    margin-bottom: 60px;
+  }
+  .info-about__title {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  .info-about__description {
+    font-size: 11px;
+  }
+  .about-project__text-week {
+    font-size: 11px;
+  }
+  .about-project__weeks-part::before {
+    font-size: 11px;
+  }
+  .info-about {
+    flex-direction: column;
+  }
+  .info-about__block {
+    max-width: 100%;
+  }
+  .info-about__block:not(:last-of-type) {
+    margin-bottom: 56px;
+  }
+}
