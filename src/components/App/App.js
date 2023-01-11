@@ -10,6 +10,7 @@ import Login from '../Login/Login';
 import './App.css';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import * as api from '../../utils/api/MainApi';
+import PrivateRoute from '../../hok/PrivateRoute';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -32,9 +33,30 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />} />
-          <Route path="movies" element={<Movies />} />
-          <Route path="saved-movies" element={<SavedMovies />} />
-          <Route path="profile" element={<Profile />} />
+          <Route
+            path="movies"
+            element={
+              <PrivateRoute loggedIn={loggedIn}>
+                <Movies />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="saved-movies"
+            element={
+              <PrivateRoute loggedIn={loggedIn}>
+                <SavedMovies />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <PrivateRoute loggedIn={loggedIn}>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
         </Route>
         <Route path="signup" element={<Register onRegister={handleRegister} />} />
         <Route path="signin" element={<Login onLogin={handleLogin} />} />
