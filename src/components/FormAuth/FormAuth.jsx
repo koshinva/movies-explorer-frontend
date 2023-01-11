@@ -3,16 +3,36 @@ import { Link } from 'react-router-dom';
 import LogoLink from '../LogoLink/LogoLink';
 import './FormAuth.css';
 
-function FormAuth({ children, welcomeTitle, labelButton, alreadyText, linkTo, linkLabel, isValid }) {
-  const buttonClass = `form-auth__button ${!isValid && 'form-auth__button_inactive'}`;
+function FormAuth({
+  children,
+  welcomeTitle,
+  labelButton,
+  alreadyText,
+  linkTo,
+  linkLabel,
+  isValid,
+  onSubmit,
+  errorMessage,
+}) {
+  const buttonClass = `form-auth__button ${
+    (!isValid || errorMessage) && 'form-auth__button_inactive'
+  }`;
   return (
     <div className="form-auth">
       <div className="form-auth__body">
         <LogoLink />
         <h2 className="form-auth__welcome-title">{welcomeTitle}</h2>
-        <form className="form-auth__form" noValidate>
+        <form
+          className="form-auth__form"
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmit();
+          }}
+        >
           {children}
           <button className={buttonClass} type="submit" disabled={!isValid}>
+            <span className="form-auth__error-above-button">{errorMessage}</span>
             {labelButton}
           </button>
         </form>

@@ -81,6 +81,17 @@
   margin-bottom: 16px;
   cursor: pointer;
   transition: all 0.4s;
+  position: relative;
+}
+.form-auth__error-above-button {
+  position: absolute;
+  color: #ee3465;
+  display: block;
+  width: 100%;
+  bottom: calc(100% + 10px);
+  left: 0;
+  font-size: 12px;
+  pointer-events: none;
 }
 .form-auth__button:hover {
   opacity: 0.7;

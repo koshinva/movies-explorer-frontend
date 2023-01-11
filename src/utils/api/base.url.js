@@ -1,1 +1,1 @@
-export const BASE_URL = 'api.movies.koshinva.nomoredomains.club';
+export const BASE_URL = 'https://api.movies.koshinva.nomoredomains.club';
