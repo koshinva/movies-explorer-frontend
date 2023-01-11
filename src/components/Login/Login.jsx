@@ -1,8 +1,11 @@
 import React from 'react';
+import { useFormWithValidation } from '../../hooks/formValidator';
 import FormAuth from '../FormAuth/FormAuth';
 import './Login.css';
 
 function Login() {
+  const { handleChange, errors, isValid, values } = useFormWithValidation();
+  
   return (
     <section className="login">
       <FormAuth
@@ -11,6 +14,7 @@ function Login() {
         alreadyText="Ещё не зарегистрированы?"
         linkTo="/signup"
         linkLabel="Регистрация"
+        isValid={isValid}
       >
         <ul className="form-auth__input-list">
           <li className="form-auth__input-item">
@@ -18,14 +22,17 @@ function Login() {
               E-mail
             </label>
             <input
-              type="email"
-              className="form-auth__input"
+              type="text"
+              className={`form-auth__input ${errors.email && 'form-auth__input_error'}`}
               id="email"
               name="email"
-              autocomplete="off"
+              autoComplete="off"
               required
-              value="pochta@yandex.ru"
+              pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
+              onChange={handleChange}
+              value={values.email ?? ''}
             />
+            {errors.email && <span className="form-auth__span-error">{errors.email}</span>}
           </li>
           <li className="form-auth__input-item">
             <label className="form-auth__label" htmlFor="password">
@@ -33,12 +40,15 @@ function Login() {
             </label>
             <input
               type="password"
-              className="form-auth__input"
+              className={`form-auth__input ${errors.password && 'form-auth__input_error'}`}
               id="password"
               name="password"
+              autoComplete="off"
               required
-              autocomplete="off"
+              onChange={handleChange}
+              value={values.password ?? ''}
             />
+            {errors.password && <span className="form-auth__span-error">{errors.password}</span>}
           </li>
         </ul>
       </FormAuth>
