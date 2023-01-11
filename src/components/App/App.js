@@ -20,6 +20,12 @@ function App() {
       navigate('/movies', { replace: true });
     });
   };
+  const handleLogin = (email, password) => {
+    return api.login(email, password).then(() => {
+      setLoggedIn(true);
+      navigate('/movies', { replace: true });
+    });
+  }
 
   return (
     <div className="app">
@@ -31,7 +37,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="signup" element={<Register onRegister={handleRegister} />} />
-        <Route path="signin" element={<Login />} />
+        <Route path="signin" element={<Login onLogin={handleLogin} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>

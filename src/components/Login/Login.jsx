@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormWithValidation } from '../../hooks/formValidator';
 import FormAuth from '../FormAuth/FormAuth';
 import './Login.css';
 
-function Login() {
+function Login({ onLogin }) {
+  const [errorLogin, setErrorLogin] = useState('')
   const { handleChange, errors, isValid, values } = useFormWithValidation();
-  
+  const onSubmit = () => {
+    onLogin(values.email, values.password).catch((error) => {
+      if (error.message) {
+        setErrorLogin(error.message);
+        setTimeout(() => {
+          setErrorLogin('');
+        }, 3000);
+      } else {
+        console.log(error);
+      }
+    });;
+  };
   return (
     <section className="login">
       <FormAuth
@@ -15,6 +27,8 @@ function Login() {
         linkTo="/signup"
         linkLabel="Регистрация"
         isValid={isValid}
+        onSubmit={onSubmit}
+        errorMessage={errorLogin}
       >
         <ul className="form-auth__input-list">
           <li className="form-auth__input-item">
