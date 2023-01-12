@@ -27,7 +27,7 @@ function App() {
         if (res.data) {
           const { name, email } = res.data;
           setLoggedIn(true);
-          setCurrentUser({name, email});
+          setCurrentUser({ name, email });
           navigate('/');
         }
       })
@@ -50,7 +50,12 @@ function App() {
       handleLogin(email, password);
     });
   };
-
+  const handleSignOut = () => {
+    api.signout().then(() => {
+      setLoggedIn(false);
+      navigate('/', { replace: true });
+    });
+  };
   return (
     <div className="app">
       <IsLoggedInProvider value={loggedIn}>
@@ -78,7 +83,7 @@ function App() {
                 path="profile"
                 element={
                   <PrivateRoute>
-                    <Profile />
+                    <Profile onSignOut={handleSignOut} />
                   </PrivateRoute>
                 }
               />

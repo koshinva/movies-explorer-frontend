@@ -1,7 +1,7 @@
 import React from 'react';
 import './Profile.css';
 
-function Profile() {
+function Profile({ onSignOut }) {
   return (
     <section className="profile">
       <div className="profile__body">
@@ -18,7 +18,7 @@ function Profile() {
         </div>
         <div className="profile__actions">
           <button className="profile__button profile__button_type_edit">Редактировать</button>
-          <button className="profile__button profile__button_type_signout">
+          <button onClick={onSignOut} className="profile__button profile__button_type_signout">
             Выйти из аккаунта
           </button>
         </div>
