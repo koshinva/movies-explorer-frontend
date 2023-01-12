@@ -92,6 +92,7 @@
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 10;
   animation: burger-menu 0.4s;
+  overflow: auto;
 }
 .navigation-movies__burger-menu-list {
   position: fixed;
@@ -104,18 +105,22 @@
   box-sizing: border-box;
   background-color: #202020;
   width: 67.7%;
-  min-height: 100%;
+  height: 100%;
   padding: 159px 90px;
   display: flex;
   flex-direction: column;
   align-items: center;
   animation: burger-list 0.4s;
+  overflow: auto;
 }
 .navigation-movies__burger-menu-item:not(:last-child) {
   margin-bottom: 28px;
 }
 .navigation-movies__burger-menu-item:nth-child(3) {
   margin-bottom: auto;
+}
+.navigation-movies__burger-menu-item:last-child {
+  padding-top: 28px;
 }
 .navigation-movies__burger-menu-link {
   font-size: 18px;
