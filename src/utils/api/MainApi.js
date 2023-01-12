@@ -20,3 +20,6 @@ export const login = (email, password) => {
 export const signout = () => {
   return fetch(`${BASE_URL}/signout`, { ...options }).then(checkResponse);
 };
+export const getInfoAboutUser = () => {
+  return fetch(`${BASE_URL}/users/me`, { ...options }).then(checkResponse);
+};

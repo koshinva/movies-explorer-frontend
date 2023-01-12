@@ -2,9 +2,9 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useLoggedIn } from '../hooks/useLoggedIn';
 
-function PrivateRoute({ children }) {
+function PublicRoute({ children }) {
   const loggedIn = useLoggedIn();
-  return loggedIn ? children : <Navigate to="/signup" />;
+  return !loggedIn ? children : <Navigate to="/" />;
 }
 
-export default PrivateRoute;
+export default PublicRoute;
