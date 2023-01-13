@@ -20,6 +20,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isInfoToolTip, setIsInfoToolTip] = useState({ isOpen: false, status: '', message: '' });
+  const [isOpenPreloader, setIsOpenPreloader] = useState(false);
   const navigate = useNavigate();
 
   const handleToolTipOpen = (status, message) => {
@@ -59,17 +60,23 @@ function App() {
     });
   };
   const handleSignOut = () => {
+    setIsOpenPreloader(true);
     api
       .signout()
       .then((res) => {
         if (res) {
           setLoggedIn(false);
           setCurrentUser({});
-          handleToolTipOpen('success', res.message);
           navigate('/', { replace: true });
+          return res;
         }
       })
+      .then((res) => {
+        setIsOpenPreloader(false);
+        handleToolTipOpen('success', res.message);
+      })
       .catch((error) => {
+        setIsOpenPreloader(false);
         handleToolTipOpen('fail', 'Ошибка при выходе');
       });
   };
@@ -108,7 +115,11 @@ function App() {
                 path="profile"
                 element={
                   <PrivateRoute>
-                    <Profile onUpdateInfoUser={handleUpdateInfoUser} onSignOut={handleSignOut} />
+                    <Profile
+                      isOpenPreloader={isOpenPreloader}
+                      onUpdateInfoUser={handleUpdateInfoUser}
+                      onSignOut={handleSignOut}
+                    />
                   </PrivateRoute>
                 }
               />

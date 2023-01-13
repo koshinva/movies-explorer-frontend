@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './Profile.css';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
 import { useFormWithValidation } from '../../hooks/formValidator';
+import Preloader from '../Preloader/Preloader';
 
-function Profile({ onSignOut, onUpdateInfoUser }) {
+function Profile({ onSignOut, onUpdateInfoUser, isOpenPreloader }) {
   const [errorProfile, setErrorProfile] = useState('');
   const { name, email } = useCurrentUser();
-  
+
   const { values, setValues, errors, handleChange, isValid, resetForm } = useFormWithValidation();
 
   useEffect(() => {
@@ -20,20 +21,24 @@ function Profile({ onSignOut, onUpdateInfoUser }) {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    onUpdateInfoUser(values.username, values.email).then(() => {
-      resetForm();
-    }).catch((error) => {
-      if (error.message) {
-        setErrorProfile(error.message);
-        setTimeout(() => {
-          setErrorProfile('');
-        }, 3000);
-      } else {
-        console.log(error);
-      }
-    });
+    onUpdateInfoUser(values.username, values.email)
+      .then(() => {
+        resetForm();
+      })
+      .catch((error) => {
+        if (error.message) {
+          setErrorProfile(error.message);
+          setTimeout(() => {
+            setErrorProfile('');
+          }, 3000);
+        } else {
+          console.log(error);
+        }
+      });
   };
-
+  if (isOpenPreloader) {
+    return <Preloader />;
+  }
   return (
     <section className="profile">
       <div className="profile__body">
