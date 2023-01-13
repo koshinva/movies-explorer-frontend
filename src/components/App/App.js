@@ -14,10 +14,14 @@ import PrivateRoute from '../../hok/PrivateRoute';
 import CurrentUserProvider from '../../hok/CurrentUserProvider';
 import IsLoggedInProvider from '../../hok/IsLoggedInProvider';
 import PublicRoute from '../../hok/PublicRoute';
+import SuccessInfoToolTip from '../InfoToolTip/SuccessInfoToolTip/SuccessInfoToolTip';
+import FailInfoToolTip from '../InfoToolTip/FailInfoToolTip/FailInfoToolTip';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const [isSuccessInfoToolTip, setIsSuccessInfoToolTip] = useState({ isOpen: false, message: '' });
+  const [isFailInfoToolTip, setIsFailInfoToolTip] = useState({ isOpen: false, message: '' });
   const navigate = useNavigate();
 
   const checkLoggedIn = () => {
@@ -54,16 +58,26 @@ function App() {
     });
   };
   const handleSignOut = () => {
-    api.signout().then(() => {
-      setLoggedIn(false);
-      setCurrentUser({});
-      navigate('/', { replace: true });
-    });
+    api
+      .signout()
+      .then((res) => {
+        setLoggedIn(false);
+        setCurrentUser({});
+        return res;
+      })
+      .then((res) => {
+        setIsSuccessInfoToolTip({ ...isSuccessInfoToolTip, isOpen: true, message: res.message });
+        navigate('/', { replace: true });
+      });
   };
   const handleUpdateInfoUser = (name, email) => {
     return api.updateInfoUser(name, email).then(() => {
       setCurrentUser({ name, email });
     });
+  };
+  const closePopups = () => {
+    setIsSuccessInfoToolTip({ isOpen: false, message: '' });
+    setIsFailInfoToolTip({ isOpen: false, message: '' });
   };
   return (
     <div className="app">
@@ -115,6 +129,16 @@ function App() {
             />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
+          <SuccessInfoToolTip
+            handleClose={closePopups}
+            isOpen={isSuccessInfoToolTip.isOpen}
+            title={isSuccessInfoToolTip.message}
+          />
+          <FailInfoToolTip
+            handleClose={closePopups}
+            isOpen={isFailInfoToolTip.isOpen}
+            title={isFailInfoToolTip.message}
+          />
         </CurrentUserProvider>
       </IsLoggedInProvider>
     </div>
