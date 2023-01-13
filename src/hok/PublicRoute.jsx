@@ -4,7 +4,7 @@ import { useLoggedIn } from '../hooks/useLoggedIn';
 
 function PublicRoute({ children }) {
   const loggedIn = useLoggedIn();
-  return !loggedIn ? children : <Navigate to="/" />;
+  return !loggedIn ? children : <Navigate to="/" replace="true" />;
 }
 
 export default PublicRoute;

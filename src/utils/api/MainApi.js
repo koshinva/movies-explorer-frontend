@@ -23,3 +23,10 @@ export const signout = () => {
 export const getInfoAboutUser = () => {
   return fetch(`${BASE_URL}/users/me`, { ...options }).then(checkResponse);
 };
+export const updateInfoUser = (name, email) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'PATCH',
+    ...options,
+    body: JSON.stringify({ name, email }),
+  }).then(checkResponse);
+};

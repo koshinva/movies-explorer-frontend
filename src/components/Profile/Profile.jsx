@@ -3,21 +3,42 @@ import './Profile.css';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
 import { useFormWithValidation } from '../../hooks/formValidator';
 
-function Profile({ onSignOut }) {
-  const {values, setValues, errors, handleChange, isValid} = useFormWithValidation();
-  const {name, email} = useCurrentUser();
+function Profile({ onSignOut, onUpdateInfoUser }) {
+  const [errorProfile, setErrorProfile] = useState('');
+  const { name, email } = useCurrentUser();
+  
+  const { values, setValues, errors, handleChange, isValid, resetForm } = useFormWithValidation();
+
   useEffect(() => {
-    setValues({...values, username: name, email});
-  }, [])
+    setValues({ ...values, username: name, email });
+  }, []);
+
   const dataNotChanges = values.username === name && values.email === email;
   const buttonClass = `profile__button profile__button_type_edit ${
-    (!isValid || dataNotChanges) && 'profile__button_inactive'
+    (!isValid || dataNotChanges || errorProfile) && 'profile__button_inactive'
   }`;
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    onUpdateInfoUser(values.username, values.email).then(() => {
+      resetForm();
+    }).catch((error) => {
+      if (error.message) {
+        setErrorProfile(error.message);
+        setTimeout(() => {
+          setErrorProfile('');
+        }, 3000);
+      } else {
+        console.log(error);
+      }
+    });
+  };
+
   return (
     <section className="profile">
       <div className="profile__body">
-        <h2 className="profile__welcome-text">Привет, Валерий!</h2>
-        <form className="profile__form">
+        <h2 className="profile__welcome-text">Привет, {name}!</h2>
+        <form className="profile__form" onSubmit={onSubmit}>
           <ul className="profile__input-list">
             <li className="profile__input-item">
               <label htmlFor="username" className="profile__label">
@@ -56,11 +77,20 @@ function Profile({ onSignOut }) {
               {errors.email && <span className="profile__input-error">{errors.email}</span>}
             </li>
           </ul>
-          <button className={buttonClass} type="submit" disabled={!isValid || dataNotChanges}>
+          {errorProfile && <span className="profile__error-above-button">{errorProfile}</span>}
+          <button
+            className={buttonClass}
+            type="submit"
+            disabled={!isValid || dataNotChanges || errorProfile}
+          >
             Редактировать
           </button>
         </form>
-        <button onClick={onSignOut} className="profile__button profile__button_type_signout">
+        <button
+          onClick={onSignOut}
+          className="profile__button profile__button_type_signout"
+          type="button"
+        >
           Выйти из аккаунта
         </button>
       </div>

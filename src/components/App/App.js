@@ -28,7 +28,6 @@ function App() {
           const { name, email } = res.data;
           setLoggedIn(true);
           setCurrentUser({ name, email });
-          navigate('/');
         }
       })
       .catch((error) => {
@@ -40,10 +39,14 @@ function App() {
   }, []);
 
   const handleLogin = (email, password) => {
-    return api.login(email, password).then(() => {
-      setLoggedIn(true);
-      navigate('/movies', { replace: true });
-    });
+    return api
+      .login(email, password)
+      .then(() => {
+        checkLoggedIn();
+      })
+      .then(() => {
+        navigate('/movies', { replace: true });
+      });
   };
   const handleRegister = (name, email, password) => {
     return api.register(name, email, password).then(() => {
@@ -53,7 +56,13 @@ function App() {
   const handleSignOut = () => {
     api.signout().then(() => {
       setLoggedIn(false);
+      setCurrentUser({});
       navigate('/', { replace: true });
+    });
+  };
+  const handleUpdateInfoUser = (name, email) => {
+    return api.updateInfoUser(name, email).then(() => {
+      setCurrentUser({ name, email });
     });
   };
   return (
@@ -83,7 +92,7 @@ function App() {
                 path="profile"
                 element={
                   <PrivateRoute>
-                    <Profile onSignOut={handleSignOut} />
+                    <Profile onUpdateInfoUser={handleUpdateInfoUser} onSignOut={handleSignOut} />
                   </PrivateRoute>
                 }
               />
