@@ -14,16 +14,17 @@ import PrivateRoute from '../../hok/PrivateRoute';
 import CurrentUserProvider from '../../hok/CurrentUserProvider';
 import IsLoggedInProvider from '../../hok/IsLoggedInProvider';
 import PublicRoute from '../../hok/PublicRoute';
-import SuccessInfoToolTip from '../InfoToolTip/SuccessInfoToolTip/SuccessInfoToolTip';
-import FailInfoToolTip from '../InfoToolTip/FailInfoToolTip/FailInfoToolTip';
+import InfoToolTip from '../InfoToolTip/InfoToolTip';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [isSuccessInfoToolTip, setIsSuccessInfoToolTip] = useState({ isOpen: false, message: '' });
-  const [isFailInfoToolTip, setIsFailInfoToolTip] = useState({ isOpen: false, message: '' });
+  const [isInfoToolTip, setIsInfoToolTip] = useState({ isOpen: false, status: '', message: '' });
   const navigate = useNavigate();
 
+  const handleToolTipOpen = (status, message) => {
+    setIsInfoToolTip({ ...isInfoToolTip, isOpen: true, status, message });
+  };
   const checkLoggedIn = () => {
     api
       .getInfoAboutUser()
@@ -61,13 +62,15 @@ function App() {
     api
       .signout()
       .then((res) => {
-        setLoggedIn(false);
-        setCurrentUser({});
-        return res;
+        if (res) {
+          setLoggedIn(false);
+          setCurrentUser({});
+          handleToolTipOpen('success', res.message);
+          navigate('/', { replace: true });
+        }
       })
-      .then((res) => {
-        setIsSuccessInfoToolTip({ ...isSuccessInfoToolTip, isOpen: true, message: res.message });
-        navigate('/', { replace: true });
+      .catch((error) => {
+        handleToolTipOpen('fail', 'Ошибка при выходе');
       });
   };
   const handleUpdateInfoUser = (name, email) => {
@@ -75,9 +78,8 @@ function App() {
       setCurrentUser({ name, email });
     });
   };
-  const closePopups = () => {
-    setIsSuccessInfoToolTip({ isOpen: false, message: '' });
-    setIsFailInfoToolTip({ isOpen: false, message: '' });
+  const handleCloseInfoToolTip = () => {
+    setIsInfoToolTip({ isOpen: false, status: '', message: '' });
   };
   return (
     <div className="app">
@@ -129,15 +131,11 @@ function App() {
             />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-          <SuccessInfoToolTip
-            handleClose={closePopups}
-            isOpen={isSuccessInfoToolTip.isOpen}
-            title={isSuccessInfoToolTip.message}
-          />
-          <FailInfoToolTip
-            handleClose={closePopups}
-            isOpen={isFailInfoToolTip.isOpen}
-            title={isFailInfoToolTip.message}
+          <InfoToolTip
+            onClose={handleCloseInfoToolTip}
+            isOpen={isInfoToolTip.isOpen}
+            status={isInfoToolTip.status}
+            title={isInfoToolTip.message}
           />
         </CurrentUserProvider>
       </IsLoggedInProvider>
