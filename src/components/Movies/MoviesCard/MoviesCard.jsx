@@ -3,16 +3,22 @@ import './MoviesCard.css';
 import card_icon_liked from '../../../images/card-movies/card-icon-liked.svg';
 import card_icon_unliked from '../../../images/card-movies/card-icon-unliked.svg';
 
-function MoviesCard({ name, duration, image, liked }) {
-  const [like, setLike] = useState(liked);
+function MoviesCard({ nameRU, duration, image: {url} }) {
+  const [like, setLike] = useState(false);
   const handleLikeClick = () => {
     setLike((l) => !l);
   };
   return (
     <div className="movies-card">
-      <img className="movies-card__image" src={image} alt={name} />
+      <div className="movies-card__image-wrapper">
+        <img
+          className="movies-card__image"
+          src={`https://api.nomoreparties.co/${url}`}
+          alt={nameRU}
+        />
+      </div>
       <div className="movies-card__info">
-        <h3 className="movies-card__name">{name}</h3>
+        <h3 className="movies-card__name">{nameRU}</h3>
         <button type="button" className="movies-card__button" onClick={handleLikeClick}>
           <img
             className="movies-card__icon-action"

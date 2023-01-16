@@ -10,6 +10,7 @@ import Login from '../Login/Login';
 import './App.css';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import * as api from '../../utils/api/MainApi';
+import * as moviesApi from '../../utils/api/MoviesApi';
 import PrivateRoute from '../../hok/PrivateRoute';
 import CurrentUserProvider from '../../hok/CurrentUserProvider';
 import IsLoggedInProvider from '../../hok/IsLoggedInProvider';
@@ -25,10 +26,16 @@ function App() {
   const [errorLogin, setErrorLogin] = useState('');
   const [errorRegister, setErrorRegister] = useState('');
   const [errorProfile, setErrorProfile] = useState('');
+  const [moviesData, setMoviesData] = useState([]);
+  const [querySearchMovies, setQuerySearchMovies] = useState('');
+  const [shortFilmFilter, setShortFilmFilter] = useState(false);
   const navigate = useNavigate();
 
   const handleToolTipOpen = (status, message) => {
     setIsInfoToolTip({ ...isInfoToolTip, isOpen: true, status, message });
+  };
+  const isEmptyInputError = () => {
+    handleToolTipOpen('fail', 'Нужно ввести ключевое слово');
   };
   const checkLoggedIn = () => {
     api
@@ -48,6 +55,31 @@ function App() {
         console.log(error);
       });
   };
+  const getMovies = () => {
+    if (!querySearchMovies) {
+      return;
+    }
+    if (!shortFilmFilter) {
+      moviesApi.getMoviesInfo().then((res) => {
+        setMoviesData(
+          res.filter((movie) =>
+            movie.nameRU.toLowerCase().includes(querySearchMovies.toLowerCase())
+          )
+        );
+      });
+      return;
+    }
+    moviesApi.getMoviesInfo().then((res) => {
+      setMoviesData(
+        res
+          .filter((movie) => movie.nameRU.toLowerCase().includes(querySearchMovies.toLowerCase()))
+          .filter((movie) => movie.duration <= 40)
+      );
+    });
+  };
+  useEffect(() => {
+    getMovies();
+  }, [querySearchMovies, shortFilmFilter]);
   useEffect(() => {
     checkLoggedIn();
   }, []);
@@ -157,7 +189,13 @@ function App() {
                   path="movies"
                   element={
                     <PrivateRoute>
-                      <Movies />
+                      <Movies
+                        isEmptyInputError={isEmptyInputError}
+                        moviesData={moviesData}
+                        setQuerySearchMovies={setQuerySearchMovies}
+                        shortFilmFilter={shortFilmFilter}
+                        setShortFilmFilter={setShortFilmFilter}
+                      />
                     </PrivateRoute>
                   }
                 />

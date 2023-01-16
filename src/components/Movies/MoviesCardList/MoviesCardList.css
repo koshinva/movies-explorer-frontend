@@ -20,7 +20,7 @@
   justify-content: center;
 }
 .movies-list__item {
-  min-height: 230px;
+  height: 230px;
 }
 .movies-list__button-more {
   margin-top: 50px;
@@ -58,7 +58,7 @@
 }
 @media screen and (max-width: 850px) {
   .movies-list__item {
-    min-height: 269px;
+    height: 269px;
   }
 }
 @media screen and (max-width: 767px) {
@@ -71,6 +71,6 @@
     display: none;
   }
   .movies-list__item {
-    min-height: 239px;
+    height: 239px;
   }
 }

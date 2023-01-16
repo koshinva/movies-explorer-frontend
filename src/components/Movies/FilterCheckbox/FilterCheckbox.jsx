@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './FilterCheckbox.css';
 
-function FilterCheckbox() {
-  const [filterCheckbox, setFilterCheckbox] = useState(false);
+function FilterCheckbox({shortFilmFilter, setShortFilmFilter}) {
   const handleCheckboxClick = () => {
-    setFilterCheckbox((check) => !check);
+    setShortFilmFilter((check) => !check);
   };
   return (
     <div className="checkbox-filter">
@@ -12,11 +11,11 @@ function FilterCheckbox() {
         <input
           type="checkbox"
           className={`checkbox-filter__checkbox ${
-            filterCheckbox && 'checkbox-filter__checkbox_active'
+            shortFilmFilter && 'checkbox-filter__checkbox_active'
           }`}
           id="checkbox-filter"
           onChange={handleCheckboxClick}
-          value={filterCheckbox}
+          value={shortFilmFilter}
         />
       </form>
       <p className="checkbox-filter__text-filter">Короткометражки</p>
