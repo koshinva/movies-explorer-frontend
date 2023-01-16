@@ -1,23 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFormWithValidation } from '../../hooks/formValidator';
 import FormAuth from '../FormAuth/FormAuth';
+import Preloader from '../Preloader/Preloader';
 import './Login.css';
 
-function Login({ onLogin }) {
-  const [errorLogin, setErrorLogin] = useState('')
+function Login({ onLogin, errorLogin, isOpenPreloader }) {
   const { handleChange, errors, isValid, values } = useFormWithValidation();
   const onSubmit = () => {
-    onLogin(values.email, values.password).catch((error) => {
-      if (error.message) {
-        setErrorLogin(error.message);
-        setTimeout(() => {
-          setErrorLogin('');
-        }, 3000);
-      } else {
-        console.log(error);
-      }
-    });;
+    onLogin(values.email, values.password);
   };
+  if (isOpenPreloader) {
+    return <Preloader />;
+  }
   return (
     <section className="login">
       <FormAuth

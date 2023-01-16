@@ -21,6 +21,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isInfoToolTip, setIsInfoToolTip] = useState({ isOpen: false, status: '', message: '' });
   const [isOpenPreloader, setIsOpenPreloader] = useState(false);
+  const [loadCheckLoggedIn, setLoadCheckLoggedIn] = useState(false);
+  const [errorLogin, setErrorLogin] = useState('');
   const navigate = useNavigate();
 
   const handleToolTipOpen = (status, message) => {
@@ -36,7 +38,11 @@ function App() {
           setCurrentUser({ name, email });
         }
       })
+      .then(() => {
+        setLoadCheckLoggedIn(true);
+      })
       .catch((error) => {
+        setLoadCheckLoggedIn(true);
         console.log(error);
       });
   };
@@ -45,13 +51,29 @@ function App() {
   }, []);
 
   const handleLogin = (email, password) => {
+    setIsOpenPreloader(true);
     return api
       .login(email, password)
-      .then(() => {
+      .then((res) => {
         checkLoggedIn();
+        return res;
       })
-      .then(() => {
+      .then((res) => {
+        setIsOpenPreloader(false);
+        handleToolTipOpen('success', res.message);
         navigate('/movies', { replace: true });
+      })
+      .catch((error) => {
+        setIsOpenPreloader(false);
+        if (error.message) {
+          setErrorLogin(error.message);
+          setTimeout(() => {
+            setErrorLogin('');
+          }, 3000);
+        } else {
+          handleToolTipOpen('fail', 'Ошибка при авторизации');
+          console.log(error);
+        }
       });
   };
   const handleRegister = (name, email, password) => {
@@ -92,56 +114,63 @@ function App() {
     <div className="app">
       <IsLoggedInProvider value={loggedIn}>
         <CurrentUserProvider value={currentUser}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Main />} />
+          {loadCheckLoggedIn && (
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Main />} />
+                <Route
+                  path="movies"
+                  element={
+                    <PrivateRoute>
+                      <Movies />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="saved-movies"
+                  element={
+                    <PrivateRoute>
+                      <SavedMovies />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="profile"
+                  element={
+                    <PrivateRoute>
+                      <Profile
+                        isOpenPreloader={isOpenPreloader}
+                        onUpdateInfoUser={handleUpdateInfoUser}
+                        onSignOut={handleSignOut}
+                      />
+                    </PrivateRoute>
+                  }
+                />
+              </Route>
               <Route
-                path="movies"
+                path="signup"
                 element={
-                  <PrivateRoute>
-                    <Movies />
-                  </PrivateRoute>
+                  <PublicRoute>
+                    <Register onRegister={handleRegister} />
+                  </PublicRoute>
                 }
               />
               <Route
-                path="saved-movies"
+                path="signin"
                 element={
-                  <PrivateRoute>
-                    <SavedMovies />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="profile"
-                element={
-                  <PrivateRoute>
-                    <Profile
+                  <PublicRoute>
+                    <Login
+                      onLogin={handleLogin}
+                      errorLogin={errorLogin}
                       isOpenPreloader={isOpenPreloader}
-                      onUpdateInfoUser={handleUpdateInfoUser}
-                      onSignOut={handleSignOut}
                     />
-                  </PrivateRoute>
+                  </PublicRoute>
                 }
               />
-            </Route>
-            <Route
-              path="signup"
-              element={
-                <PublicRoute>
-                  <Register onRegister={handleRegister} />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="signin"
-              element={
-                <PublicRoute>
-                  <Login onLogin={handleLogin} />
-                </PublicRoute>
-              }
-            />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          )}
+
           <InfoToolTip
             onClose={handleCloseInfoToolTip}
             isOpen={isInfoToolTip.isOpen}
