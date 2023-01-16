@@ -1,23 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFormWithValidation } from '../../hooks/formValidator';
 import FormAuth from '../FormAuth/FormAuth';
+import Preloader from '../Preloader/Preloader';
 import './Register.css';
 
-function Register({ onRegister }) {
-  const [errorRegister, setErrorRegister] = useState('');
+function Register({ onRegister, errorRegister, isOpenPreloader }) {
   const { values, handleChange, errors, isValid } = useFormWithValidation();
   const onSubmit = () => {
-    onRegister(values.username, values.email, values.password).catch((error) => {
-      if (error.message) {
-        setErrorRegister(error.message);
-        setTimeout(() => {
-          setErrorRegister('');
-        }, 3000);
-      } else {
-        console.log(error);
-      }
-    });
+    onRegister(values.username, values.email, values.password);
   };
+  if (isOpenPreloader) {
+    return <Preloader />;
+  }
   return (
     <section className="register">
       <FormAuth

@@ -23,6 +23,7 @@ function App() {
   const [isOpenPreloader, setIsOpenPreloader] = useState(false);
   const [loadCheckLoggedIn, setLoadCheckLoggedIn] = useState(false);
   const [errorLogin, setErrorLogin] = useState('');
+  const [errorRegister, setErrorRegister] = useState('');
   const navigate = useNavigate();
 
   const handleToolTipOpen = (status, message) => {
@@ -79,7 +80,17 @@ function App() {
   const handleRegister = (name, email, password) => {
     return api.register(name, email, password).then(() => {
       handleLogin(email, password);
-    });
+    }).catch((error) => {
+      if (error.message) {
+        setErrorRegister(error.message);
+        setTimeout(() => {
+          setErrorRegister('');
+        }, 3000);
+      } else {
+        handleToolTipOpen('fail', 'Ошибка при регистрации');
+        console.log(error);
+      }
+    })
   };
   const handleSignOut = () => {
     setIsOpenPreloader(true);
@@ -151,7 +162,11 @@ function App() {
                 path="signup"
                 element={
                   <PublicRoute>
-                    <Register onRegister={handleRegister} />
+                    <Register
+                      onRegister={handleRegister}
+                      errorRegister={errorRegister}
+                      isOpenPreloader={isOpenPreloader}
+                    />
                   </PublicRoute>
                 }
               />
