@@ -24,6 +24,7 @@ function App() {
   const [loadCheckLoggedIn, setLoadCheckLoggedIn] = useState(false);
   const [errorLogin, setErrorLogin] = useState('');
   const [errorRegister, setErrorRegister] = useState('');
+  const [errorProfile, setErrorProfile] = useState('');
   const navigate = useNavigate();
 
   const handleToolTipOpen = (status, message) => {
@@ -78,19 +79,22 @@ function App() {
       });
   };
   const handleRegister = (name, email, password) => {
-    return api.register(name, email, password).then(() => {
-      handleLogin(email, password);
-    }).catch((error) => {
-      if (error.message) {
-        setErrorRegister(error.message);
-        setTimeout(() => {
-          setErrorRegister('');
-        }, 3000);
-      } else {
-        handleToolTipOpen('fail', 'Ошибка при регистрации');
-        console.log(error);
-      }
-    })
+    return api
+      .register(name, email, password)
+      .then(() => {
+        handleLogin(email, password);
+      })
+      .catch((error) => {
+        if (error.message) {
+          setErrorRegister(error.message);
+          setTimeout(() => {
+            setErrorRegister('');
+          }, 3000);
+        } else {
+          handleToolTipOpen('fail', 'Ошибка при регистрации');
+          console.log(error);
+        }
+      });
   };
   const handleSignOut = () => {
     setIsOpenPreloader(true);
@@ -114,9 +118,29 @@ function App() {
       });
   };
   const handleUpdateInfoUser = (name, email) => {
-    return api.updateInfoUser(name, email).then(() => {
-      setCurrentUser({ name, email });
-    });
+    setIsOpenPreloader(true);
+    return api
+      .updateInfoUser(name, email)
+      .then((res) => {
+        const { name, email } = res.data;
+        setCurrentUser({ name, email });
+      })
+      .then(() => {
+        setIsOpenPreloader(false);
+        handleToolTipOpen('success', 'Данные успешно изменены');
+      })
+      .catch((error) => {
+        setIsOpenPreloader(false);
+        if (error.message) {
+          setErrorProfile(error.message);
+          setTimeout(() => {
+            setErrorProfile('');
+          }, 3000);
+        } else {
+          handleToolTipOpen('fail', 'Ошибка при изменении данных');
+          console.log(error);
+        }
+      });
   };
   const handleCloseInfoToolTip = () => {
     setIsInfoToolTip({ isOpen: false, status: '', message: '' });
@@ -153,6 +177,7 @@ function App() {
                         isOpenPreloader={isOpenPreloader}
                         onUpdateInfoUser={handleUpdateInfoUser}
                         onSignOut={handleSignOut}
+                        errorProfile={errorProfile}
                       />
                     </PrivateRoute>
                   }

@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './Profile.css';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
 import { useFormWithValidation } from '../../hooks/formValidator';
 import Preloader from '../Preloader/Preloader';
 
-function Profile({ onSignOut, onUpdateInfoUser, isOpenPreloader }) {
-  const [errorProfile, setErrorProfile] = useState('');
+function Profile({ onSignOut, onUpdateInfoUser, isOpenPreloader, errorProfile }) {
   const { name, email } = useCurrentUser();
 
   const { values, setValues, errors, handleChange, isValid, resetForm } = useFormWithValidation();
 
   useEffect(() => {
     setValues({ ...values, username: name, email });
-  }, []);
+  }, [name, email]);
 
   const dataNotChanges = values.username === name && values.email === email;
   const buttonClass = `profile__button profile__button_type_edit ${
@@ -21,20 +20,9 @@ function Profile({ onSignOut, onUpdateInfoUser, isOpenPreloader }) {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    onUpdateInfoUser(values.username, values.email)
-      .then(() => {
-        resetForm();
-      })
-      .catch((error) => {
-        if (error.message) {
-          setErrorProfile(error.message);
-          setTimeout(() => {
-            setErrorProfile('');
-          }, 3000);
-        } else {
-          console.log(error);
-        }
-      });
+    onUpdateInfoUser(values.username, values.email).finally(() => {
+      resetForm();
+    });
   };
   if (isOpenPreloader) {
     return <Preloader />;
