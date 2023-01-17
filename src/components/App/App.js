@@ -117,12 +117,17 @@ function App() {
       });
   };
   const handleRegister = (name, email, password) => {
+    setIsOpenPreloader(true);
     return api
       .register(name, email, password)
       .then(() => {
         handleLogin(email, password);
       })
+      .then(() => {
+        setIsOpenPreloader(false);
+      })
       .catch((error) => {
+        setIsOpenPreloader(false);
         if (error.message) {
           setErrorRegister(error.message);
           setTimeout(() => {
