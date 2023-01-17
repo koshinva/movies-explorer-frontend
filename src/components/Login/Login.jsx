@@ -1,11 +1,13 @@
 import React from 'react';
 import { useFormWithValidation } from '../../hooks/formValidator';
+import { usePreloader } from '../../hooks/usePreloader';
 import FormAuth from '../FormAuth/FormAuth';
 import Preloader from '../Preloader/Preloader';
 import './Login.css';
 
-function Login({ onLogin, errorLogin, isOpenPreloader }) {
+function Login({ onLogin, errorLogin }) {
   const { handleChange, errors, isValid, values } = useFormWithValidation();
+  const isOpenPreloader = usePreloader();
   const onSubmit = () => {
     onLogin(values.email, values.password);
   };

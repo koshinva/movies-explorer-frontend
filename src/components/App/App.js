@@ -18,6 +18,7 @@ import PublicRoute from '../../hok/PublicRoute';
 import InfoToolTip from '../InfoToolTip/InfoToolTip';
 import { moviesFilter } from '../../utils/moviesFilter';
 import { localStorageGetItem, localStorageSetItem } from '../../utils/handleLocalStorage';
+import PreloaderProvider from '../../hok/PreloaderProvider';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -186,82 +187,80 @@ function App() {
     <div className="app">
       <IsLoggedInProvider value={loggedIn}>
         <CurrentUserProvider value={currentUser}>
-          {loadCheckLoggedIn && (
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Main />} />
+          <PreloaderProvider value={isOpenPreloader}>
+            {loadCheckLoggedIn && (
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<Main />} />
+                  <Route
+                    path="movies"
+                    element={
+                      <PrivateRoute>
+                        <Movies
+                          isEmptyInputError={isEmptyInputError}
+                          moviesData={moviesData}
+                          setQuerySearchMovies={setQuerySearchMovies}
+                          shortFilmFilter={shortFilmFilter}
+                          setShortFilmFilter={setShortFilmFilter}
+                          querySearchMovies={querySearchMovies}
+                        />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="saved-movies"
+                    element={
+                      <PrivateRoute>
+                        <SavedMovies />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="profile"
+                    element={
+                      <PrivateRoute>
+                        <Profile
+                          onUpdateInfoUser={handleUpdateInfoUser}
+                          onSignOut={handleSignOut}
+                          errorProfile={errorProfile}
+                        />
+                      </PrivateRoute>
+                    }
+                  />
+                </Route>
                 <Route
-                  path="movies"
+                  path="signup"
                   element={
-                    <PrivateRoute>
-                      <Movies
-                        isEmptyInputError={isEmptyInputError}
-                        moviesData={moviesData}
-                        setQuerySearchMovies={setQuerySearchMovies}
-                        shortFilmFilter={shortFilmFilter}
-                        setShortFilmFilter={setShortFilmFilter}
-                        isOpenPreloader={isOpenPreloader}
-                        querySearchMovies={querySearchMovies}
+                    <PublicRoute>
+                      <Register
+                        onRegister={handleRegister}
+                        errorRegister={errorRegister}
                       />
-                    </PrivateRoute>
+                    </PublicRoute>
                   }
                 />
                 <Route
-                  path="saved-movies"
+                  path="signin"
                   element={
-                    <PrivateRoute>
-                      <SavedMovies />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="profile"
-                  element={
-                    <PrivateRoute>
-                      <Profile
-                        isOpenPreloader={isOpenPreloader}
-                        onUpdateInfoUser={handleUpdateInfoUser}
-                        onSignOut={handleSignOut}
-                        errorProfile={errorProfile}
+                    <PublicRoute>
+                      <Login
+                        onLogin={handleLogin}
+                        errorLogin={errorLogin}
                       />
-                    </PrivateRoute>
+                    </PublicRoute>
                   }
                 />
-              </Route>
-              <Route
-                path="signup"
-                element={
-                  <PublicRoute>
-                    <Register
-                      onRegister={handleRegister}
-                      errorRegister={errorRegister}
-                      isOpenPreloader={isOpenPreloader}
-                    />
-                  </PublicRoute>
-                }
-              />
-              <Route
-                path="signin"
-                element={
-                  <PublicRoute>
-                    <Login
-                      onLogin={handleLogin}
-                      errorLogin={errorLogin}
-                      isOpenPreloader={isOpenPreloader}
-                    />
-                  </PublicRoute>
-                }
-              />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          )}
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            )}
 
-          <InfoToolTip
-            onClose={handleCloseInfoToolTip}
-            isOpen={isInfoToolTip.isOpen}
-            status={isInfoToolTip.status}
-            title={isInfoToolTip.message}
-          />
+            <InfoToolTip
+              onClose={handleCloseInfoToolTip}
+              isOpen={isInfoToolTip.isOpen}
+              status={isInfoToolTip.status}
+              title={isInfoToolTip.message}
+            />
+          </PreloaderProvider>
         </CurrentUserProvider>
       </IsLoggedInProvider>
     </div>

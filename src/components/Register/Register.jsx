@@ -1,11 +1,13 @@
 import React from 'react';
 import { useFormWithValidation } from '../../hooks/formValidator';
+import { usePreloader } from '../../hooks/usePreloader';
 import FormAuth from '../FormAuth/FormAuth';
 import Preloader from '../Preloader/Preloader';
 import './Register.css';
 
-function Register({ onRegister, errorRegister, isOpenPreloader }) {
+function Register({ onRegister, errorRegister }) {
   const { values, handleChange, errors, isValid } = useFormWithValidation();
+  const isOpenPreloader = usePreloader();
   const onSubmit = () => {
     onRegister(values.username, values.email, values.password);
   };

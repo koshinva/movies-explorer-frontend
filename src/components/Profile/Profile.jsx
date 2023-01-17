@@ -3,10 +3,11 @@ import './Profile.css';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
 import { useFormWithValidation } from '../../hooks/formValidator';
 import Preloader from '../Preloader/Preloader';
+import { usePreloader } from '../../hooks/usePreloader';
 
-function Profile({ onSignOut, onUpdateInfoUser, isOpenPreloader, errorProfile }) {
+function Profile({ onSignOut, onUpdateInfoUser, errorProfile }) {
   const { name, email } = useCurrentUser();
-
+  const isOpenPreloader = usePreloader();
   const { values, setValues, errors, handleChange, isValid, resetForm } = useFormWithValidation();
 
   useEffect(() => {

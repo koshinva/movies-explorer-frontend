@@ -1,4 +1,5 @@
 import React from 'react';
+import { usePreloader } from '../../hooks/usePreloader';
 import Preloader from '../Preloader/Preloader';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import SearchForm from './SearchForm/SearchForm';
@@ -9,9 +10,9 @@ function Movies({
   setQuerySearchMovies,
   shortFilmFilter,
   setShortFilmFilter,
-  isOpenPreloader,
   querySearchMovies,
 }) {
+  const isOpenPreloader = usePreloader();
   return (
     <section className="movies">
       <SearchForm
