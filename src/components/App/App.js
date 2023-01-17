@@ -16,6 +16,8 @@ import CurrentUserProvider from '../../hok/CurrentUserProvider';
 import IsLoggedInProvider from '../../hok/IsLoggedInProvider';
 import PublicRoute from '../../hok/PublicRoute';
 import InfoToolTip from '../InfoToolTip/InfoToolTip';
+import { moviesFilter } from '../../utils/moviesFilter';
+import { localStorageGetItem, localStorageSetItem } from '../../utils/handleLocalStorage';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -56,32 +58,35 @@ function App() {
       });
   };
   const getMovies = () => {
+    setIsOpenPreloader(true);
     if (!querySearchMovies) {
+      setIsOpenPreloader(false);
       return;
     }
-    if (!shortFilmFilter) {
-      moviesApi.getMoviesInfo().then((res) => {
-        setMoviesData(
-          res.filter((movie) =>
-            movie.nameRU.toLowerCase().includes(querySearchMovies.toLowerCase())
-          )
+    moviesApi
+      .getMoviesInfo()
+      .then((res) => {
+        const moviesResult = moviesFilter(res, querySearchMovies, shortFilmFilter);
+        setMoviesData(moviesResult);
+        localStorageSetItem(moviesResult, querySearchMovies, shortFilmFilter);
+      })
+      .then(() => {
+        setIsOpenPreloader(false);
+      })
+      .catch((error) => {
+        setIsOpenPreloader(false);
+        handleToolTipOpen(
+          'fail',
+          'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
         );
       });
-      return;
-    }
-    moviesApi.getMoviesInfo().then((res) => {
-      setMoviesData(
-        res
-          .filter((movie) => movie.nameRU.toLowerCase().includes(querySearchMovies.toLowerCase()))
-          .filter((movie) => movie.duration <= 40)
-      );
-    });
   };
   useEffect(() => {
     getMovies();
   }, [querySearchMovies, shortFilmFilter]);
   useEffect(() => {
     checkLoggedIn();
+    localStorageGetItem(setMoviesData, setQuerySearchMovies, setShortFilmFilter);
   }, []);
 
   const handleLogin = (email, password) => {
@@ -195,6 +200,8 @@ function App() {
                         setQuerySearchMovies={setQuerySearchMovies}
                         shortFilmFilter={shortFilmFilter}
                         setShortFilmFilter={setShortFilmFilter}
+                        isOpenPreloader={isOpenPreloader}
+                        querySearchMovies={querySearchMovies}
                       />
                     </PrivateRoute>
                   }

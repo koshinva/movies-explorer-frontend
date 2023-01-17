@@ -1,4 +1,5 @@
 import React from 'react';
+import Preloader from '../Preloader/Preloader';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import SearchForm from './SearchForm/SearchForm';
 
@@ -8,6 +9,8 @@ function Movies({
   setQuerySearchMovies,
   shortFilmFilter,
   setShortFilmFilter,
+  isOpenPreloader,
+  querySearchMovies,
 }) {
   return (
     <section className="movies">
@@ -16,8 +19,9 @@ function Movies({
         setQuerySearchMovies={setQuerySearchMovies}
         shortFilmFilter={shortFilmFilter}
         setShortFilmFilter={setShortFilmFilter}
+        querySearchMovies={querySearchMovies}
       />
-      <MoviesCardList moviesData={moviesData} />
+      {isOpenPreloader ? <Preloader /> : <MoviesCardList moviesData={moviesData} />}
     </section>
   );
 }

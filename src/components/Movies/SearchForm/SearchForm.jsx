@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import logo from '../../../images/movies/search-logo.svg';
@@ -8,6 +8,7 @@ function SearchForm({
   setQuerySearchMovies,
   shortFilmFilter,
   setShortFilmFilter,
+  querySearchMovies,
 }) {
   const [filmTitle, setFilmTitle] = useState('');
   const onSubmit = (event) => {
@@ -18,6 +19,9 @@ function SearchForm({
     }
     setQuerySearchMovies(filmTitle);
   };
+  useEffect(() => {
+    setFilmTitle(querySearchMovies);
+  }, []);
   return (
     <div className="search-form">
       <div className="search-form__body">
@@ -27,7 +31,7 @@ function SearchForm({
             className="search-form__input"
             placeholder="Фильм"
             name="film-title"
-            value={filmTitle}
+            value={filmTitle ?? ''}
             onChange={(e) => setFilmTitle(e.target.value)}
             autoComplete="off"
           />
