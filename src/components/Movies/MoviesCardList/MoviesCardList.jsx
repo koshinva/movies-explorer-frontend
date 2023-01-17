@@ -1,9 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDisplayItems } from '../../../hooks/useDisplayItems';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
-// import { moviesData } from '../../../utils/moviesData';
 
-function MoviesCardList({moviesData}) {
+function MoviesCardList({ moviesData }) {
+  const {
+    checkDisplayWidth,
+    displayWidth,
+    checkQuantityDisplayItems,
+    buttonMoreActive,
+    checkButtonMoreActive,
+    handleButtonMore,
+    quantityDisplayItems: { quantityLoad },
+  } = useDisplayItems();
+
+  useEffect(() => {
+    window.addEventListener('resize', checkDisplayWidth);
+    return window.removeEventListener('resize', checkDisplayWidth);
+  }, []);
+
+  useEffect(() => {
+    checkButtonMoreActive(moviesData);
+  }, [quantityLoad]);
+
+  useEffect(() => {
+    checkQuantityDisplayItems();
+  }, [displayWidth]);
+
   return (
     <div className="movies-list">
       <div className="movies-list__body">
@@ -12,13 +35,20 @@ function MoviesCardList({moviesData}) {
         ) : (
           <>
             <ul className="movies-list__list">
-              {moviesData.map((movie, i) => (
+              {moviesData.slice(0, quantityLoad).map((movie) => (
                 <li key={movie.id} className="movies-list__item movies-list__item_location_movies">
                   <MoviesCard {...movie} />
                 </li>
               ))}
             </ul>
-            <button className="movies-list__button-more">Ещё</button>
+            <button
+              onClick={handleButtonMore}
+              className={`movies-list__button-more ${
+                !buttonMoreActive ? 'movies-list__button-more_inactive' : ''
+              }`}
+            >
+              Ещё
+            </button>
           </>
         )}
       </div>
