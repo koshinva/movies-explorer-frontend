@@ -8,6 +8,11 @@ function MoviesCard({ nameRU, duration, image: {url} }) {
   const handleLikeClick = () => {
     setLike((l) => !l);
   };
+  const editDisplayDuration = (duration) => {
+    const hours = Math.floor(duration / 60);
+    const minutes = duration % 60;
+    return hours ? (minutes ? `${hours}h ${minutes}m` : `${hours}h`) : `${minutes}m`;
+  }
   return (
     <div className="movies-card">
       <div className="movies-card__image-wrapper">
@@ -27,7 +32,7 @@ function MoviesCard({ nameRU, duration, image: {url} }) {
           />
         </button>
       </div>
-      <p className="movies-card__duration">{duration}</p>
+      <p className="movies-card__duration">{editDisplayDuration(duration)}</p>
     </div>
   );
 }
