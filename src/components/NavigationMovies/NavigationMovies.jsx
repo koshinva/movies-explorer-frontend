@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './NavigationMovies.css';
 import close_icon from '../../images/burger-menu/close-icon.svg';
 
@@ -11,6 +11,11 @@ function NavigationMovies() {
   const handleClickCloseBurgerMenu = () => {
     setOpenBurgerMenu(false);
   };
+  const classNameMoviesLink = (isActive, type) => {
+    return `navigation-movies__link ${
+      isActive ? 'navigation-movies__link_active' : ''
+    } navigation-movies__link-${type}`;
+  };
   const classNameBurgerLink = ({ isActive }) =>
     isActive
       ? 'navigation-movies__burger-menu-link navigation-movies__burger-menu-link_active'
@@ -20,19 +25,28 @@ function NavigationMovies() {
     <div className="navigation-movies">
       <ul className="navigation-movies__list-link">
         <li className="navigation-movies__item-link">
-          <Link to="movies" className="navigation-movies__link navigation-movies__link-movies">
+          <NavLink
+            to="movies"
+            className={({ isActive }) => classNameMoviesLink(isActive, 'movies')}
+          >
             Фильмы
-          </Link>
+          </NavLink>
         </li>
         <li className="navigation-movies__item-link">
-          <Link to="saved-movies" className="navigation-movies__link navigation-movies__link-saved">
+          <NavLink
+            to="saved-movies"
+            className={({ isActive }) => classNameMoviesLink(isActive, 'saved')}
+          >
             Сохранённые фильмы
-          </Link>
+          </NavLink>
         </li>
         <li className="navigation-movies__item-link">
-          <Link to="profile" className="navigation-movies__link navigation-movies__link-account">
+          <NavLink
+            to="profile"
+            className={({ isActive }) => classNameMoviesLink(isActive, 'account')}
+          >
             Аккаунт
-          </Link>
+          </NavLink>
         </li>
       </ul>
       <button

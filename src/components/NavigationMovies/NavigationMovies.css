@@ -34,12 +34,14 @@
   text-decoration: none;
   transition: all 0.4s;
 }
+.navigation-movies__link_active {
+  font-weight: 500;
+}
 .navigation-movies__link:hover {
   opacity: 0.7;
 }
 .navigation-movies__link-movies {
   margin-right: 20px;
-  font-weight: 500;
 }
 .navigation-movies__link-saved {
   margin-right: 50px;
