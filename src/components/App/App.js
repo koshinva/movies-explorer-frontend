@@ -17,7 +17,11 @@ import IsLoggedInProvider from '../../hok/IsLoggedInProvider';
 import PublicRoute from '../../hok/PublicRoute';
 import InfoToolTip from '../InfoToolTip/InfoToolTip';
 import { moviesFilter } from '../../utils/moviesFilter';
-import { localStorageGetItem, localStorageSetItem, localStorageSetSavedMovies } from '../../utils/handleLocalStorage';
+import {
+  localStorageGetItem,
+  localStorageSetItem,
+  localStorageSetSavedMovies,
+} from '../../utils/handleLocalStorage';
 import PreloaderProvider from '../../hok/PreloaderProvider';
 
 function App() {
@@ -84,13 +88,16 @@ function App() {
       });
   };
   const getSavedMovies = () => {
-    return api.getMoviesFromFavorite().then(({ data: savedMovies }) => {
-      const ownSavedMovies = savedMovies.filter((m) => m.owner === currentUser._id);
-      setSavedMovies(ownSavedMovies);
-      localStorageSetSavedMovies(ownSavedMovies);
-    }).catch((error) => {
-      console.log(error);
-    })
+    return api
+      .getMoviesFromFavorite()
+      .then(({ data: savedMovies }) => {
+        const ownSavedMovies = savedMovies.filter((m) => m.owner === currentUser._id);
+        setSavedMovies(ownSavedMovies);
+        localStorageSetSavedMovies(ownSavedMovies);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -105,7 +112,7 @@ function App() {
   useEffect(() => {
     if (loggedIn) getSavedMovies();
   }, [loggedIn]);
-  
+
   const handleLogin = (email, password) => {
     setIsOpenPreloader(true);
     return api
@@ -243,7 +250,7 @@ function App() {
         .catch((error) => {
           handleToolTipOpen('fail', 'Ошибка при удалении фильма из сохранённых');
           console.log(error);
-        });;
+        });
     }
   };
   const handleCloseInfoToolTip = () => {
@@ -278,7 +285,10 @@ function App() {
                     path="saved-movies"
                     element={
                       <PrivateRoute>
-                        <SavedMovies />
+                        <SavedMovies
+                          savedMovies={savedMovies}
+                          isEmptyInputError={isEmptyInputError}
+                        />
                       </PrivateRoute>
                     }
                   />

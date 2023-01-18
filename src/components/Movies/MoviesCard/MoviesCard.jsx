@@ -3,6 +3,7 @@ import './MoviesCard.css';
 import card_icon_liked from '../../../images/card-movies/card-icon-liked.svg';
 import card_icon_unliked from '../../../images/card-movies/card-icon-unliked.svg';
 import { localStorageGetSavedMovies } from '../../../utils/handleLocalStorage';
+import { editDisplayDuration } from '../../../utils/editDisplayDuration';
 
 function MoviesCard({ movie, handleMovieLike }) {
   const [like, setLike] = useState(false);
@@ -16,11 +17,6 @@ function MoviesCard({ movie, handleMovieLike }) {
   const onLikeClick = () => {
     handleMovieLike(movie, like);
     setLike((l) => !l);
-  };
-  const editDisplayDuration = (duration) => {
-    const hours = Math.floor(duration / 60);
-    const minutes = duration % 60;
-    return hours ? (minutes ? `${hours}h ${minutes}m` : `${hours}h`) : `${minutes}m`;
   };
   return (
     <div className="movies-card">
