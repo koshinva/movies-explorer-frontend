@@ -3,7 +3,12 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import '../../Movies/MoviesCardList/MoviesCardList.css';
 import { moviesFilter } from '../../../utils/moviesFilter';
 
-function MoviesCardList({ savedMovies, querySearchSavedMovies, filterShortSavedFilm }) {
+function MoviesCardList({
+  savedMovies,
+  querySearchSavedMovies,
+  filterShortSavedFilm,
+  handleRemoveMovieFromFavorite,
+}) {
   return (
     <div className="movies-list movies-saved-list">
       <div className="movies-list__body">
@@ -14,7 +19,10 @@ function MoviesCardList({ savedMovies, querySearchSavedMovies, filterShortSavedF
             {moviesFilter(savedMovies, querySearchSavedMovies, filterShortSavedFilm).map(
               (movie) => (
                 <li key={movie.movieId} className="movies-list__item">
-                  <MoviesCard movie={movie} />
+                  <MoviesCard
+                    handleRemoveMovieFromFavorite={handleRemoveMovieFromFavorite}
+                    movie={movie}
+                  />
                 </li>
               )
             )}

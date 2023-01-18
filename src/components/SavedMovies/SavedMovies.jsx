@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import SearchForm from '../Movies/SearchForm/SearchForm';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 
-function SavedMovies({
-  savedMovies,
-  isEmptyInputError,
-}) {
+function SavedMovies({ savedMovies, isEmptyInputError, handleRemoveMovieFromFavorite }) {
   const [querySearchSavedMovies, setQuerySearchSavedMovies] = useState('');
   const [filterShortSavedFilm, setFilterShortSavedFilm] = useState(false);
   return (
@@ -21,6 +18,7 @@ function SavedMovies({
         savedMovies={savedMovies}
         querySearchSavedMovies={querySearchSavedMovies}
         filterShortSavedFilm={filterShortSavedFilm}
+        handleRemoveMovieFromFavorite={handleRemoveMovieFromFavorite}
       />
     </section>
   );

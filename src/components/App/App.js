@@ -208,6 +208,32 @@ function App() {
         }
       });
   };
+  const handleAddMovieToFavorite = (movie) => {
+    return api
+      .addMovieToFavorite(movie)
+      .then(({ data: newMovie }) => {
+        setSavedMovies([newMovie, ...savedMovies]);
+        localStorageSetSavedMovies(savedMovies);
+        handleToolTipOpen('success', 'Фильм добавлен в сохранённые');
+      })
+      .catch((error) => {
+        handleToolTipOpen('fail', 'Ошибка при добавлении фильма в сохранённые');
+        console.log(error);
+      });
+  }
+  const handleRemoveMovieFromFavorite = (id) => {
+    return api
+      .deleteMovieFromFavorite(id)
+      .then(() => {
+        setSavedMovies((state) => state.filter((m) => m._id !== id));
+        localStorageSetSavedMovies(savedMovies);
+        handleToolTipOpen('success', 'Фильм удален из сохраненных');
+      })
+      .catch((error) => {
+        handleToolTipOpen('fail', 'Ошибка при удалении фильма из сохранённых');
+        console.log(error);
+      });
+  }
   const handleMovieLike = (movie, isLiked) => {
     const {
       image: {
@@ -222,35 +248,15 @@ function App() {
       ...movieData
     } = movie;
     if (!isLiked) {
-      return api
-        .addMovieToFavorite({
-          ...movieData,
-          image: `https://api.nomoreparties.co/${urlImage}`,
-          thumbnail: `https://api.nomoreparties.co/${urlThumbnail}`,
-          movieId,
-        })
-        .then(({ data: newMovie }) => {
-          setSavedMovies([newMovie, ...savedMovies]);
-          localStorageSetSavedMovies(savedMovies);
-          handleToolTipOpen('success', 'Фильм добавлен в сохранённые');
-        })
-        .catch((error) => {
-          handleToolTipOpen('fail', 'Ошибка при добавлении фильма в сохранённые');
-          console.log(error);
-        });
+      handleAddMovieToFavorite({
+        ...movieData,
+        image: `https://api.nomoreparties.co/${urlImage}`,
+        thumbnail: `https://api.nomoreparties.co/${urlThumbnail}`,
+        movieId,
+      });
     } else {
       const idMovieOnDelete = savedMovies.find((m) => m.movieId === movie.id)._id;
-      return api
-        .deleteMovieFromFavorite(idMovieOnDelete)
-        .then(() => {
-          setSavedMovies((state) => state.filter((m) => m._id !== idMovieOnDelete));
-          localStorageSetSavedMovies(savedMovies);
-          handleToolTipOpen('success', 'Фильм удален из сохраненных');
-        })
-        .catch((error) => {
-          handleToolTipOpen('fail', 'Ошибка при удалении фильма из сохранённых');
-          console.log(error);
-        });
+      handleRemoveMovieFromFavorite(idMovieOnDelete);
     }
   };
   const handleCloseInfoToolTip = () => {
@@ -288,6 +294,7 @@ function App() {
                         <SavedMovies
                           savedMovies={savedMovies}
                           isEmptyInputError={isEmptyInputError}
+                          handleRemoveMovieFromFavorite={handleRemoveMovieFromFavorite}
                         />
                       </PrivateRoute>
                     }

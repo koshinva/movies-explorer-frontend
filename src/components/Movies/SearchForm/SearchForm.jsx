@@ -15,7 +15,6 @@ function SearchForm({
     event.preventDefault();
     if (!filmTitle) {
       isEmptyInputError();
-      return;
     }
     setQuerySearchMovies(filmTitle);
   };

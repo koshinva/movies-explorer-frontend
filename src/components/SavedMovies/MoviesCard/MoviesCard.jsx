@@ -3,7 +3,10 @@ import '../../Movies/MoviesCard/MoviesCard.css';
 import card_icon_delete from '../../../images/card-saved-movies/card-icon-dislike.svg';
 import { editDisplayDuration } from '../../../utils/editDisplayDuration';
 
-function MoviesCard({movie}) {
+function MoviesCard({ movie, handleRemoveMovieFromFavorite }) {
+  const onClickRemoveMovieButton = () => {
+    handleRemoveMovieFromFavorite(movie._id);
+  }
   return (
     <div className="movies-card">
       <a
@@ -16,7 +19,11 @@ function MoviesCard({movie}) {
       </a>
       <div className="movies-card__info">
         <h3 className="movies-card__name">{movie.nameRU}</h3>
-        <button type="button" className="movies-card__button movies-card__button_type_delete">
+        <button
+          type="button"
+          className="movies-card__button movies-card__button_type_delete"
+          onClick={onClickRemoveMovieButton}
+        >
           <img
             className="movies-card__icon-action"
             src={card_icon_delete}
