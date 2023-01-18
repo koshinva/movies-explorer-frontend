@@ -65,10 +65,6 @@ function App() {
   };
   const getMovies = () => {
     setIsOpenPreloader(true);
-    if (!querySearchMovies) {
-      setIsOpenPreloader(false);
-      return;
-    }
     moviesApi
       .getMoviesInfo()
       .then((res) => {
