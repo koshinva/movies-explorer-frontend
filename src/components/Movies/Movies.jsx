@@ -11,6 +11,7 @@ function Movies({
   shortFilmFilter,
   setShortFilmFilter,
   querySearchMovies,
+  handleMovieLike
 }) {
   const isOpenPreloader = usePreloader();
   return (
@@ -22,7 +23,11 @@ function Movies({
         setShortFilmFilter={setShortFilmFilter}
         querySearchMovies={querySearchMovies}
       />
-      {isOpenPreloader ? <Preloader /> : <MoviesCardList moviesData={moviesData} />}
+      {isOpenPreloader ? (
+        <Preloader />
+      ) : (
+        <MoviesCardList moviesData={moviesData} handleMovieLike={handleMovieLike} />
+      )}
     </section>
   );
 }

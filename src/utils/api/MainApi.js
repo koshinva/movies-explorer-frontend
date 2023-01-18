@@ -30,3 +30,19 @@ export const updateInfoUser = (name, email) => {
     body: JSON.stringify({ name, email }),
   }).then(checkResponse);
 };
+export const addMovieToFavorite = (movie) => {
+  return fetch(`${BASE_URL}/movies`, {
+    method: 'POST',
+    ...options,
+    body: JSON.stringify({ ...movie }),
+  }).then(checkResponse);
+};
+export const deleteMovieFromFavorite = (id) => {
+  return fetch(`${BASE_URL}/movies/${id}`, {
+    method: 'DELETE',
+    ...options,
+  }).then(checkResponse);
+};
+export const getMoviesFromFavorite = () => {
+  return fetch(`${BASE_URL}/movies`, { ...options }).then(checkResponse);
+};

@@ -3,7 +3,7 @@ import { useDisplayItems } from '../../../hooks/useDisplayItems';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-function MoviesCardList({ moviesData }) {
+function MoviesCardList({ moviesData, handleMovieLike }) {
   const {
     checkDisplayWidth,
     displayWidth,
@@ -37,7 +37,7 @@ function MoviesCardList({ moviesData }) {
             <ul className="movies-list__list">
               {moviesData.slice(0, quantityLoad).map((movie) => (
                 <li key={movie.id} className="movies-list__item movies-list__item_location_movies">
-                  <MoviesCard {...movie} />
+                  <MoviesCard movie={movie} handleMovieLike={handleMovieLike} />
                 </li>
               ))}
             </ul>

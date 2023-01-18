@@ -8,3 +8,9 @@ export const localStorageGetItem = (setListMovies, setQuery, setFilter) => {
   setQuery(localStorage.getItem('query-search-movies') || '');
   setFilter(JSON.parse(localStorage.getItem('short-film-filter')) || false);
 };
+export const localStorageSetSavedMovies = (savedListMovies) => {
+  localStorage.setItem('saved-movies-info', JSON.stringify(savedListMovies));
+};
+export const localStorageGetSavedMovies = () => {
+  return JSON.parse(localStorage.getItem('saved-movies-info'));
+};

@@ -17,7 +17,7 @@ import IsLoggedInProvider from '../../hok/IsLoggedInProvider';
 import PublicRoute from '../../hok/PublicRoute';
 import InfoToolTip from '../InfoToolTip/InfoToolTip';
 import { moviesFilter } from '../../utils/moviesFilter';
-import { localStorageGetItem, localStorageSetItem } from '../../utils/handleLocalStorage';
+import { localStorageGetItem, localStorageSetItem, localStorageSetSavedMovies } from '../../utils/handleLocalStorage';
 import PreloaderProvider from '../../hok/PreloaderProvider';
 
 function App() {
@@ -32,6 +32,7 @@ function App() {
   const [moviesData, setMoviesData] = useState([]);
   const [querySearchMovies, setQuerySearchMovies] = useState('');
   const [shortFilmFilter, setShortFilmFilter] = useState(false);
+  const [savedMovies, setSavedMovies] = useState([]);
   const navigate = useNavigate();
 
   const handleToolTipOpen = (status, message) => {
@@ -45,9 +46,9 @@ function App() {
       .getInfoAboutUser()
       .then((res) => {
         if (res.data) {
-          const { name, email } = res.data;
+          const { name, email, _id } = res.data;
           setLoggedIn(true);
-          setCurrentUser({ name, email });
+          setCurrentUser({ name, email, _id });
         }
       })
       .then(() => {
@@ -82,14 +83,29 @@ function App() {
         );
       });
   };
-  useEffect(() => {
-    getMovies();
-  }, [querySearchMovies, shortFilmFilter]);
+  const getSavedMovies = () => {
+    return api.getMoviesFromFavorite().then(({ data: savedMovies }) => {
+      const ownSavedMovies = savedMovies.filter((m) => m.owner === currentUser._id);
+      setSavedMovies(ownSavedMovies);
+      localStorageSetSavedMovies(ownSavedMovies);
+    }).catch((error) => {
+      console.log(error);
+    })
+  };
+
   useEffect(() => {
     checkLoggedIn();
     localStorageGetItem(setMoviesData, setQuerySearchMovies, setShortFilmFilter);
   }, []);
 
+  useEffect(() => {
+    getMovies();
+  }, [querySearchMovies, shortFilmFilter]);
+
+  useEffect(() => {
+    if (loggedIn) getSavedMovies();
+  }, [loggedIn]);
+  
   const handleLogin = (email, password) => {
     setIsOpenPreloader(true);
     return api
@@ -185,6 +201,51 @@ function App() {
         }
       });
   };
+  const handleMovieLike = (movie, isLiked) => {
+    const {
+      image: {
+        url: urlImage,
+        formats: {
+          thumbnail: { url: urlThumbnail },
+        },
+      },
+      id: movieId,
+      created_at,
+      updated_at,
+      ...movieData
+    } = movie;
+    if (!isLiked) {
+      return api
+        .addMovieToFavorite({
+          ...movieData,
+          image: `https://api.nomoreparties.co/${urlImage}`,
+          thumbnail: `https://api.nomoreparties.co/${urlThumbnail}`,
+          movieId,
+        })
+        .then(({ data: newMovie }) => {
+          setSavedMovies([newMovie, ...savedMovies]);
+          localStorageSetSavedMovies(savedMovies);
+          handleToolTipOpen('success', 'Фильм добавлен в сохранённые');
+        })
+        .catch((error) => {
+          handleToolTipOpen('fail', 'Ошибка при добавлении фильма в сохранённые');
+          console.log(error);
+        });
+    } else {
+      const idMovieOnDelete = savedMovies.find((m) => m.movieId === movie.id)._id;
+      return api
+        .deleteMovieFromFavorite(idMovieOnDelete)
+        .then(() => {
+          setSavedMovies((state) => state.filter((m) => m._id !== idMovieOnDelete));
+          localStorageSetSavedMovies(savedMovies);
+          handleToolTipOpen('success', 'Фильм удален из сохраненных');
+        })
+        .catch((error) => {
+          handleToolTipOpen('fail', 'Ошибка при удалении фильма из сохранённых');
+          console.log(error);
+        });;
+    }
+  };
   const handleCloseInfoToolTip = () => {
     setIsInfoToolTip({ isOpen: false, status: '', message: '' });
   };
@@ -208,6 +269,7 @@ function App() {
                           shortFilmFilter={shortFilmFilter}
                           setShortFilmFilter={setShortFilmFilter}
                           querySearchMovies={querySearchMovies}
+                          handleMovieLike={handleMovieLike}
                         />
                       </PrivateRoute>
                     }
@@ -237,10 +299,7 @@ function App() {
                   path="signup"
                   element={
                     <PublicRoute>
-                      <Register
-                        onRegister={handleRegister}
-                        errorRegister={errorRegister}
-                      />
+                      <Register onRegister={handleRegister} errorRegister={errorRegister} />
                     </PublicRoute>
                   }
                 />
@@ -248,10 +307,7 @@ function App() {
                   path="signin"
                   element={
                     <PublicRoute>
-                      <Login
-                        onLogin={handleLogin}
-                        errorLogin={errorLogin}
-                      />
+                      <Login onLogin={handleLogin} errorLogin={errorLogin} />
                     </PublicRoute>
                   }
                 />
