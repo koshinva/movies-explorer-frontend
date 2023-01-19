@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './MoviesCard.css';
 import card_icon_liked from '../../../images/card-movies/card-icon-liked.svg';
 import card_icon_unliked from '../../../images/card-movies/card-icon-unliked.svg';
-import { localStorageGetSavedMovies } from '../../../utils/handleLocalStorage';
 import { editDisplayDuration } from '../../../utils/editDisplayDuration';
 
 function MoviesCard({ movie, handleMovieLike }) {
   const [like, setLike] = useState(false);
   const checkLikedCard = () => {
-    const savedMovies = localStorageGetSavedMovies();
+    const savedMovies = JSON.parse(localStorage.getItem('saved-movies'));
     setLike(savedMovies.some((m) => m.movieId === movie.id))
   }
   useEffect(() => {

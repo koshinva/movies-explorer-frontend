@@ -10,19 +10,25 @@ import Login from '../Login/Login';
 import './App.css';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import * as api from '../../utils/api/MainApi';
-import * as moviesApi from '../../utils/api/MoviesApi';
 import PrivateRoute from '../../hok/PrivateRoute';
 import CurrentUserProvider from '../../hok/CurrentUserProvider';
 import IsLoggedInProvider from '../../hok/IsLoggedInProvider';
 import PublicRoute from '../../hok/PublicRoute';
 import InfoToolTip from '../InfoToolTip/InfoToolTip';
-import { moviesFilter } from '../../utils/moviesFilter';
-import {
-  localStorageGetItem,
-  localStorageSetItem,
-  localStorageSetSavedMovies,
-} from '../../utils/handleLocalStorage';
 import PreloaderProvider from '../../hok/PreloaderProvider';
+import { extractMovieData } from '../../utils/extractMovieData';
+import {
+  DATA_SUCCESSFULLY_CHANGED_MESSAGE,
+  ERROR_CHANGING_DATA_MESSAGE,
+  ERROR_LOGIN_MESSAGE,
+  ERROR_MOVIE_REMOVE_MESSAGE,
+  ERROR_MOVIE_SAVED_MESSAGE,
+  ERROR_NEED_KEYWORD_MESSAGE,
+  ERROR_REGISTER_MESSAGE,
+  ERROR_SIGNOUT_MESSAGE,
+  MOVIE_REMOVE_MESSAGE,
+  MOVIE_SAVED_MESSAGE,
+} from '../../utils/messageConst';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -33,18 +39,19 @@ function App() {
   const [errorLogin, setErrorLogin] = useState('');
   const [errorRegister, setErrorRegister] = useState('');
   const [errorProfile, setErrorProfile] = useState('');
-  const [moviesData, setMoviesData] = useState([]);
-  const [querySearchMovies, setQuerySearchMovies] = useState('');
-  const [shortFilmFilter, setShortFilmFilter] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
   const navigate = useNavigate();
 
   const handleToolTipOpen = (status, message) => {
     setIsInfoToolTip({ ...isInfoToolTip, isOpen: true, status, message });
+    setTimeout(() => {
+      setIsInfoToolTip({ isOpen: false, status: '', message: '' });
+    }, 1500);
   };
   const isEmptyInputError = () => {
-    handleToolTipOpen('fail', 'Нужно ввести ключевое слово');
+    handleToolTipOpen('fail', ERROR_NEED_KEYWORD_MESSAGE);
   };
+
   const checkLoggedIn = () => {
     api
       .getInfoAboutUser()
@@ -63,50 +70,31 @@ function App() {
         console.log(error);
       });
   };
-  const getMovies = () => {
-    setIsOpenPreloader(true);
-    moviesApi
-      .getMoviesInfo()
-      .then((res) => {
-        const moviesResult = moviesFilter(res, querySearchMovies, shortFilmFilter);
-        setMoviesData(moviesResult);
-        localStorageSetItem(moviesResult, querySearchMovies, shortFilmFilter);
-      })
-      .then(() => {
-        setIsOpenPreloader(false);
-      })
-      .catch((error) => {
-        setIsOpenPreloader(false);
-        handleToolTipOpen(
-          'fail',
-          'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз'
-        );
-      });
-  };
   const getSavedMovies = () => {
+    setIsOpenPreloader(true);
     return api
       .getMoviesFromFavorite()
       .then(({ data: savedMovies }) => {
         const ownSavedMovies = savedMovies.filter((m) => m.owner === currentUser._id);
         setSavedMovies(ownSavedMovies);
-        localStorageSetSavedMovies(ownSavedMovies);
+        localStorage.setItem('saved-movies', JSON.stringify(ownSavedMovies));
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setIsOpenPreloader(false);
       });
   };
 
   useEffect(() => {
     checkLoggedIn();
-    localStorageGetItem(setMoviesData, setQuerySearchMovies, setShortFilmFilter);
   }, []);
 
   useEffect(() => {
-    getMovies();
-  }, [querySearchMovies, shortFilmFilter]);
-
-  useEffect(() => {
-    if (loggedIn) getSavedMovies();
+    if (loggedIn) {
+      getSavedMovies();
+    }
   }, [loggedIn]);
 
   const handleLogin = (email, password) => {
@@ -118,21 +106,22 @@ function App() {
         return res;
       })
       .then((res) => {
-        setIsOpenPreloader(false);
         handleToolTipOpen('success', res.message);
         navigate('/movies', { replace: true });
       })
       .catch((error) => {
-        setIsOpenPreloader(false);
         if (error.message) {
           setErrorLogin(error.message);
           setTimeout(() => {
             setErrorLogin('');
           }, 3000);
         } else {
-          handleToolTipOpen('fail', 'Ошибка при авторизации');
+          handleToolTipOpen('fail', ERROR_LOGIN_MESSAGE);
           console.log(error);
         }
+      })
+      .finally(() => {
+        setIsOpenPreloader(false);
       });
   };
   const handleRegister = (name, email, password) => {
@@ -142,20 +131,19 @@ function App() {
       .then(() => {
         handleLogin(email, password);
       })
-      .then(() => {
-        setIsOpenPreloader(false);
-      })
       .catch((error) => {
-        setIsOpenPreloader(false);
         if (error.message) {
           setErrorRegister(error.message);
           setTimeout(() => {
             setErrorRegister('');
           }, 3000);
         } else {
-          handleToolTipOpen('fail', 'Ошибка при регистрации');
+          handleToolTipOpen('fail', ERROR_REGISTER_MESSAGE);
           console.log(error);
         }
+      })
+      .finally(() => {
+        setIsOpenPreloader(false);
       });
   };
   const handleSignOut = () => {
@@ -167,16 +155,18 @@ function App() {
           setLoggedIn(false);
           setCurrentUser({});
           navigate('/', { replace: true });
+          localStorage.clear();
           return res;
         }
       })
       .then((res) => {
-        setIsOpenPreloader(false);
         handleToolTipOpen('success', res.message);
       })
       .catch((error) => {
+        handleToolTipOpen('fail', ERROR_SIGNOUT_MESSAGE);
+      })
+      .finally(() => {
         setIsOpenPreloader(false);
-        handleToolTipOpen('fail', 'Ошибка при выходе');
       });
   };
   const handleUpdateInfoUser = (name, email) => {
@@ -188,68 +178,56 @@ function App() {
         setCurrentUser({ name, email });
       })
       .then(() => {
-        setIsOpenPreloader(false);
-        handleToolTipOpen('success', 'Данные успешно изменены');
+        handleToolTipOpen('success', DATA_SUCCESSFULLY_CHANGED_MESSAGE);
       })
       .catch((error) => {
-        setIsOpenPreloader(false);
         if (error.message) {
           setErrorProfile(error.message);
           setTimeout(() => {
             setErrorProfile('');
           }, 3000);
         } else {
-          handleToolTipOpen('fail', 'Ошибка при изменении данных');
+          handleToolTipOpen('fail', ERROR_CHANGING_DATA_MESSAGE);
           console.log(error);
         }
+      })
+      .finally(() => {
+        setIsOpenPreloader(false);
       });
   };
   const handleAddMovieToFavorite = (movie) => {
     return api
       .addMovieToFavorite(movie)
       .then(({ data: newMovie }) => {
-        setSavedMovies([newMovie, ...savedMovies]);
-        localStorageSetSavedMovies(savedMovies);
-        handleToolTipOpen('success', 'Фильм добавлен в сохранённые');
+        const moviesAfterSave = [newMovie, ...JSON.parse(localStorage.getItem('saved-movies'))];
+        setSavedMovies(moviesAfterSave);
+        localStorage.setItem('saved-movies', JSON.stringify(moviesAfterSave));
+        handleToolTipOpen('success', MOVIE_SAVED_MESSAGE);
       })
       .catch((error) => {
-        handleToolTipOpen('fail', 'Ошибка при добавлении фильма в сохранённые');
+        handleToolTipOpen('fail', ERROR_MOVIE_SAVED_MESSAGE);
         console.log(error);
       });
-  }
+  };
   const handleRemoveMovieFromFavorite = (id) => {
     return api
       .deleteMovieFromFavorite(id)
       .then(() => {
-        setSavedMovies((state) => state.filter((m) => m._id !== id));
-        localStorageSetSavedMovies(savedMovies);
-        handleToolTipOpen('success', 'Фильм удален из сохраненных');
+        const moviesAfterDelete = JSON.parse(localStorage.getItem('saved-movies')).filter(
+          (movie) => movie._id !== id
+        );
+        setSavedMovies(moviesAfterDelete);
+        localStorage.setItem('saved-movies', JSON.stringify(moviesAfterDelete));
+        handleToolTipOpen('success', MOVIE_REMOVE_MESSAGE);
       })
       .catch((error) => {
-        handleToolTipOpen('fail', 'Ошибка при удалении фильма из сохранённых');
+        handleToolTipOpen('fail', ERROR_MOVIE_REMOVE_MESSAGE);
         console.log(error);
       });
-  }
+  };
   const handleMovieLike = (movie, isLiked) => {
-    const {
-      image: {
-        url: urlImage,
-        formats: {
-          thumbnail: { url: urlThumbnail },
-        },
-      },
-      id: movieId,
-      created_at,
-      updated_at,
-      ...movieData
-    } = movie;
     if (!isLiked) {
-      handleAddMovieToFavorite({
-        ...movieData,
-        image: `https://api.nomoreparties.co/${urlImage}`,
-        thumbnail: `https://api.nomoreparties.co/${urlThumbnail}`,
-        movieId,
-      });
+      handleAddMovieToFavorite(extractMovieData(movie));
     } else {
       const idMovieOnDelete = savedMovies.find((m) => m.movieId === movie.id)._id;
       handleRemoveMovieFromFavorite(idMovieOnDelete);
@@ -272,13 +250,10 @@ function App() {
                     element={
                       <PrivateRoute>
                         <Movies
-                          isEmptyInputError={isEmptyInputError}
-                          moviesData={moviesData}
-                          setQuerySearchMovies={setQuerySearchMovies}
-                          shortFilmFilter={shortFilmFilter}
-                          setShortFilmFilter={setShortFilmFilter}
-                          querySearchMovies={querySearchMovies}
                           handleMovieLike={handleMovieLike}
+                          isEmptyInputError={isEmptyInputError}
+                          setIsOpenPreloader={setIsOpenPreloader}
+                          handleToolTipOpen={handleToolTipOpen}
                         />
                       </PrivateRoute>
                     }
@@ -289,6 +264,7 @@ function App() {
                       <PrivateRoute>
                         <SavedMovies
                           savedMovies={savedMovies}
+                          setSavedMovies={setSavedMovies}
                           isEmptyInputError={isEmptyInputError}
                           handleRemoveMovieFromFavorite={handleRemoveMovieFromFavorite}
                         />

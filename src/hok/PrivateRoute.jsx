@@ -4,7 +4,7 @@ import { useLoggedIn } from '../hooks/useLoggedIn';
 
 function PrivateRoute({ children }) {
   const loggedIn = useLoggedIn();
-  return loggedIn ? children : <Navigate to="/signup" replace="true" />;
+  return loggedIn ? children : <Navigate to="/" replace="true" />;
 }
 
 export default PrivateRoute;
