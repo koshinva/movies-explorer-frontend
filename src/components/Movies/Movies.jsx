@@ -12,14 +12,21 @@ function Movies({ handleMovieLike, setIsOpenPreloader, handleToolTipOpen, isEmpt
 
   const getMovies = (query, filter) => {
     setIsOpenPreloader(true);
+
+    const moviesFromStorage = JSON.parse(localStorage.getItem('movies'));
+    if (moviesFromStorage) {
+      setMoviesData(moviesFilter(moviesFromStorage, query, filter));
+      setIsOpenPreloader(false);
+      return;
+    }
     return moviesApi
       .getMoviesInfo()
       .then((res) => {
-        return moviesFilter(res, query, filter);
+        localStorage.setItem('movies', JSON.stringify(res));
+        return res;
       })
       .then((result) => {
-        setMoviesData(result);
-        localStorage.setItem('movies', JSON.stringify(result));
+        setMoviesData(moviesFilter(result, query, filter));
       })
       .catch((error) => {
         handleToolTipOpen(
@@ -48,10 +55,12 @@ function Movies({ handleMovieLike, setIsOpenPreloader, handleToolTipOpen, isEmpt
   useEffect(() => {
     const moviesFromStorage = JSON.parse(localStorage.getItem('movies'));
     if (!moviesFromStorage) {
-      getMovies('', false);
-    } else {
-      setMoviesData(moviesFromStorage);
+      setMoviesData([]);
+      return;
     }
+    const query = localStorage.getItem('query-movies') ?? '';
+    const filter = JSON.parse(localStorage.getItem('filter-movies')) ?? false;
+    setMoviesData(moviesFilter(moviesFromStorage, query, filter));
   }, []);
 
   return (
