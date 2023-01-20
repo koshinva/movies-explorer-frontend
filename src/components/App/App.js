@@ -53,7 +53,7 @@ function App() {
   };
 
   const checkLoggedIn = () => {
-    api
+    return api
       .getInfoAboutUser()
       .then((res) => {
         if (res.data) {
@@ -102,11 +102,10 @@ function App() {
     return api
       .login(email, password)
       .then((res) => {
-        checkLoggedIn();
-        return res;
-      })
-      .then((res) => {
         handleToolTipOpen('success', res.message);
+        return checkLoggedIn();
+      })
+      .then(() => {
         navigate('/movies', { replace: true });
       })
       .catch((error) => {
@@ -130,6 +129,9 @@ function App() {
       .register(name, email, password)
       .then(() => {
         handleLogin(email, password);
+      })
+      .then(() => {
+        navigate('/movies', { replace: true });
       })
       .catch((error) => {
         if (error.message) {
