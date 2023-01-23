@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { usePreloader } from '../../hooks/usePreloader';
 import SearchForm from '../Movies/SearchForm/SearchForm';
 import Preloader from '../Preloader/Preloader';
@@ -19,25 +19,33 @@ function SavedMovies({
   };
 
   const handleSearchSavedMovies = (query, event) => {
-    const filter = JSON.parse(localStorage.getItem('filter-saved-movies')) ?? false;
     if (!query) {
       event.target['query-film-title'].focus();
       isEmptyInputError();
       showSavedMovies('', false);
       return;
     }
+    const filter = JSON.parse(localStorage.getItem('filter-saved-movies')) ?? false;
     showSavedMovies(query, filter);
   };
   const handleChangeFilter = (filter) => {
     const query = localStorage.getItem('query-saved-movies') ?? '';
     showSavedMovies(query, filter);
   };
+  useEffect(() => {
+    const savedMoviesFromStorage = JSON.parse(localStorage.getItem('saved-movies'));
+    if (!savedMoviesFromStorage) {
+      setSavedMovies([]);
+      return;
+    }
+    const query = localStorage.getItem('query-saved-movies') ?? '';
+    const filter = JSON.parse(localStorage.getItem('filter-saved-movies')) ?? false;
+    setSavedMovies(moviesFilter(savedMoviesFromStorage, query, filter));
+  }, [savedMovies]);
+  
   return (
     <section className="saved-movies">
-      <SearchForm
-        handleSubmit={handleSearchSavedMovies}
-        handleChangeFilter={handleChangeFilter}
-      />
+      <SearchForm handleSubmit={handleSearchSavedMovies} handleChangeFilter={handleChangeFilter} />
       {isOpenPreloader ? (
         <Preloader />
       ) : (
