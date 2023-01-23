@@ -1,31 +1,54 @@
-import React, { useEffect } from 'react';
-import { useDisplayItems } from '../../../hooks/useDisplayItems';
+import React, { useEffect, useState } from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
 function MoviesCardList({ moviesData, handleMovieLike }) {
-  const {
-    checkDisplayWidth,
-    displayWidth,
-    checkQuantityDisplayItems,
-    buttonMoreActive,
-    checkButtonMoreActive,
-    handleButtonMore,
-    quantityDisplayItems: { quantityLoad },
-  } = useDisplayItems();
 
+  const [quantityLoad, setQuantityLoad] = useState(0);
+  const visibleMovies = moviesData.slice(0, quantityLoad);
+
+  function checkQuantityDisplayItems() {
+    setTimeout(() => {
+      const sizeWindow = document.documentElement.clientWidth;
+      if (sizeWindow > 1569) {
+        setQuantityLoad(15);
+      } else if (sizeWindow > 1279 && sizeWindow < 1570) {
+        setQuantityLoad(12);
+      } else if (sizeWindow > 929 && sizeWindow < 1280) {
+        setQuantityLoad(12);
+      } else if (sizeWindow > 589 && sizeWindow < 930) {
+        setQuantityLoad(8);
+      } else {
+        setQuantityLoad(5);
+      }
+    }, 66);
+  }
+  const checkButtonMoreActive = () => {
+    if (moviesData.length === visibleMovies.length) {
+      return false;
+    }
+    return true;
+  };
   useEffect(() => {
-    window.addEventListener('resize', checkDisplayWidth);
-    return window.removeEventListener('resize', checkDisplayWidth);
+    window.addEventListener('resize', checkQuantityDisplayItems.bind(this));
+    checkQuantityDisplayItems();
+    return window.removeEventListener('resize', checkQuantityDisplayItems.bind(this));
   }, []);
 
-  useEffect(() => {
-    checkButtonMoreActive(moviesData);
-  }, [quantityLoad]);
-
-  useEffect(() => {
-    checkQuantityDisplayItems();
-  }, [displayWidth]);
+  const handleButtonMore = () => {
+    const sizeWindow = document.documentElement.clientWidth;
+    if (sizeWindow > 1569) {
+      setQuantityLoad((l) => l + 5);
+    } else if (sizeWindow > 1279 && sizeWindow < 1570) {
+      setQuantityLoad((l) => l + 4);
+    } else if (sizeWindow > 929 && sizeWindow < 1280) {
+      setQuantityLoad((l) => l + 3);
+    } else if (sizeWindow > 589 && sizeWindow < 930) {
+      setQuantityLoad((l) => l + 2);
+    } else {
+      setQuantityLoad((l) => l + 1);
+    }
+  };
 
   return (
     <div className="movies-list">
@@ -35,7 +58,7 @@ function MoviesCardList({ moviesData, handleMovieLike }) {
         ) : (
           <>
             <ul className="movies-list__list">
-              {moviesData.slice(0, quantityLoad).map((movie) => (
+              {visibleMovies.map((movie) => (
                 <li key={movie.id} className="movies-list__item movies-list__item_location_movies">
                   <MoviesCard movie={movie} handleMovieLike={handleMovieLike} />
                 </li>
@@ -44,7 +67,7 @@ function MoviesCardList({ moviesData, handleMovieLike }) {
             <button
               onClick={handleButtonMore}
               className={`movies-list__button-more ${
-                !buttonMoreActive ? 'movies-list__button-more_inactive' : ''
+                !checkButtonMoreActive() ? 'movies-list__button-more_inactive' : ''
               }`}
             >
               Ещё
