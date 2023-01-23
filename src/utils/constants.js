@@ -1,0 +1,14 @@
+export const SHORT_FILM_DURATION = 40;
+export const LARGE_DESKTOP_WIDTH = 1570;
+export const DESKTOP_WIDTH = 1280;
+export const TABLET_WIDTH = 930;
+export const MOBILE_WIDTH = 590;
+export const AMOUNT_ADD_LARGE_DESKTOP = 5;
+export const AMOUNT_ADD_DESKTOP = 4;
+export const AMOUNT_ADD_TABLET = 3;
+export const AMOUNT_ADD_LARGE_MOBILE = 2;
+export const AMOUNT_ADD_MOBILE = 1;
+export const QUANTITY_LOAD_LARGE_DESKTOP = 15;
+export const QUANTITY_LOAD_DESKTOP = 12;
+export const QUANTITY_LOAD_TABLET = 8;
+export const QUANTITY_LOAD_MOBILE = 5;

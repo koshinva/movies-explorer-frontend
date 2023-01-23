@@ -1,25 +1,39 @@
 import React, { useEffect, useState } from 'react';
+import {
+  AMOUNT_ADD_DESKTOP,
+  AMOUNT_ADD_LARGE_DESKTOP,
+  AMOUNT_ADD_LARGE_MOBILE,
+  AMOUNT_ADD_MOBILE,
+  AMOUNT_ADD_TABLET,
+  DESKTOP_WIDTH,
+  LARGE_DESKTOP_WIDTH,
+  MOBILE_WIDTH,
+  QUANTITY_LOAD_DESKTOP,
+  QUANTITY_LOAD_LARGE_DESKTOP,
+  QUANTITY_LOAD_MOBILE,
+  QUANTITY_LOAD_TABLET,
+  TABLET_WIDTH,
+} from '../../../utils/constants';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
 function MoviesCardList({ moviesData, handleMovieLike }) {
-
   const [quantityLoad, setQuantityLoad] = useState(0);
   const visibleMovies = moviesData.slice(0, quantityLoad);
 
   function checkQuantityDisplayItems() {
     setTimeout(() => {
       const sizeWindow = document.documentElement.clientWidth;
-      if (sizeWindow > 1569) {
-        setQuantityLoad(15);
-      } else if (sizeWindow > 1279 && sizeWindow < 1570) {
-        setQuantityLoad(12);
-      } else if (sizeWindow > 929 && sizeWindow < 1280) {
-        setQuantityLoad(12);
-      } else if (sizeWindow > 589 && sizeWindow < 930) {
-        setQuantityLoad(8);
+      if (sizeWindow >= LARGE_DESKTOP_WIDTH) {
+        setQuantityLoad(QUANTITY_LOAD_LARGE_DESKTOP);
+      } else if (sizeWindow >= DESKTOP_WIDTH && sizeWindow < LARGE_DESKTOP_WIDTH) {
+        setQuantityLoad(QUANTITY_LOAD_DESKTOP);
+      } else if (sizeWindow >= TABLET_WIDTH && sizeWindow < DESKTOP_WIDTH) {
+        setQuantityLoad(QUANTITY_LOAD_DESKTOP);
+      } else if (sizeWindow >= MOBILE_WIDTH && sizeWindow < TABLET_WIDTH) {
+        setQuantityLoad(QUANTITY_LOAD_TABLET);
       } else {
-        setQuantityLoad(5);
+        setQuantityLoad(QUANTITY_LOAD_MOBILE);
       }
     }, 66);
   }
@@ -37,16 +51,16 @@ function MoviesCardList({ moviesData, handleMovieLike }) {
 
   const handleButtonMore = () => {
     const sizeWindow = document.documentElement.clientWidth;
-    if (sizeWindow > 1569) {
-      setQuantityLoad((l) => l + 5);
-    } else if (sizeWindow > 1279 && sizeWindow < 1570) {
-      setQuantityLoad((l) => l + 4);
-    } else if (sizeWindow > 929 && sizeWindow < 1280) {
-      setQuantityLoad((l) => l + 3);
-    } else if (sizeWindow > 589 && sizeWindow < 930) {
-      setQuantityLoad((l) => l + 2);
+    if (sizeWindow >= LARGE_DESKTOP_WIDTH) {
+      setQuantityLoad((l) => l + AMOUNT_ADD_LARGE_DESKTOP);
+    } else if (sizeWindow >= DESKTOP_WIDTH && sizeWindow < LARGE_DESKTOP_WIDTH) {
+      setQuantityLoad((l) => l + AMOUNT_ADD_DESKTOP);
+    } else if (sizeWindow >= TABLET_WIDTH && sizeWindow < DESKTOP_WIDTH) {
+      setQuantityLoad((l) => l + AMOUNT_ADD_TABLET);
+    } else if (sizeWindow >= MOBILE_WIDTH && sizeWindow < TABLET_WIDTH) {
+      setQuantityLoad((l) => l + AMOUNT_ADD_LARGE_MOBILE);
     } else {
-      setQuantityLoad((l) => l + 1);
+      setQuantityLoad((l) => l + AMOUNT_ADD_MOBILE);
     }
   };
 
