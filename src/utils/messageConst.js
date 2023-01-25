@@ -1,0 +1,10 @@
+export const ERROR_SIGNOUT_MESSAGE = 'Ошибка при выходе';
+export const ERROR_NEED_KEYWORD_MESSAGE = 'Нужно ввести ключевое слово';
+export const ERROR_LOGIN_MESSAGE = 'Ошибка при авторизации';
+export const ERROR_REGISTER_MESSAGE = 'Ошибка при регистрации';
+export const ERROR_CHANGING_DATA_MESSAGE = 'Ошибка при изменении данных';
+export const DATA_SUCCESSFULLY_CHANGED_MESSAGE = 'Данные успешно изменены';
+export const MOVIE_SAVED_MESSAGE = 'Фильм добавлен в сохранённые';
+export const ERROR_MOVIE_SAVED_MESSAGE = 'Ошибка при добавлении фильма в сохранённые';
+export const MOVIE_REMOVE_MESSAGE = 'Фильм удален из сохраненных';
+export const ERROR_MOVIE_REMOVE_MESSAGE = 'Ошибка при удалении фильма из сохранённых';

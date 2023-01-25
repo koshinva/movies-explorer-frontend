@@ -1,8 +1,19 @@
 import React from 'react';
+import { useFormWithValidation } from '../../hooks/formValidator';
+import { usePreloader } from '../../hooks/usePreloader';
 import FormAuth from '../FormAuth/FormAuth';
+import Preloader from '../Preloader/Preloader';
 import './Login.css';
 
-function Login() {
+function Login({ onLogin, errorLogin }) {
+  const { handleChange, errors, isValid, values } = useFormWithValidation();
+  const isOpenPreloader = usePreloader();
+  const onSubmit = () => {
+    onLogin(values.email, values.password);
+  };
+  if (isOpenPreloader) {
+    return <Preloader />;
+  }
   return (
     <section className="login">
       <FormAuth
@@ -11,6 +22,9 @@ function Login() {
         alreadyText="Ещё не зарегистрированы?"
         linkTo="/signup"
         linkLabel="Регистрация"
+        isValid={isValid}
+        onSubmit={onSubmit}
+        errorMessage={errorLogin}
       >
         <ul className="form-auth__input-list">
           <li className="form-auth__input-item">
@@ -18,14 +32,17 @@ function Login() {
               E-mail
             </label>
             <input
-              type="email"
-              className="form-auth__input"
+              type="text"
+              className={`form-auth__input ${errors.email && 'form-auth__input_error'}`}
               id="email"
               name="email"
-              autocomplete="off"
+              autoComplete="off"
               required
-              value="pochta@yandex.ru"
+              pattern="^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$"
+              onChange={handleChange}
+              value={values.email ?? ''}
             />
+            {errors.email && <span className="form-auth__span-error">{errors.email}</span>}
           </li>
           <li className="form-auth__input-item">
             <label className="form-auth__label" htmlFor="password">
@@ -33,12 +50,15 @@ function Login() {
             </label>
             <input
               type="password"
-              className="form-auth__input"
+              className={`form-auth__input ${errors.password && 'form-auth__input_error'}`}
               id="password"
               name="password"
+              autoComplete="off"
               required
-              autocomplete="off"
+              onChange={handleChange}
+              value={values.password ?? ''}
             />
+            {errors.password && <span className="form-auth__span-error">{errors.password}</span>}
           </li>
         </ul>
       </FormAuth>
