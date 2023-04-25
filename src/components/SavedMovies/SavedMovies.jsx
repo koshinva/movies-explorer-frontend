@@ -41,7 +41,7 @@ function SavedMovies({
     const query = localStorage.getItem('query-saved-movies') ?? '';
     const filter = JSON.parse(localStorage.getItem('filter-saved-movies')) ?? false;
     setSavedMovies(moviesFilter(savedMoviesFromStorage, query, filter));
-  }, [savedMovies]);
+  }, []);
   
   return (
     <section className="saved-movies">
