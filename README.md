@@ -47,9 +47,23 @@ Frontend часть дипломного проекта, в которой бы�
 
 ---
 
+## Установка
+
+1. установить backend часть приложения
+* клонировать через терминал репозиторий `git clone https://github.com/koshinva/movies-explorer-api.git`
+* установить зависимости `npm ci`
+* запустить проект `npm run start`. Проект запуститься на порту `3000`
+
+2. установить frontend часть приложения
+* клонировать через терминал репозиторий `git clone https://github.com/koshinva/movies-explorer-frontend.git`
+* установить зависимости `npm ci`
+* запустить проект `npm run start`. Проект запуститься на порту `3005`
+
 ## Ссылки
 
-:point_right: **Frontend** часть размещена на виртуальной машине *Yandex Cloud*, доступна по **[ссылке](https://movies.koshinva.nomoredomains.club 'https://movies.koshinva.nomoredomains.club')**
+:point_right: **Frontend** часть размещена на виртуальной машине *Yandex Cloud*, доступна по **[ссылке](https://movies.koshinva.nomoredomains.club 'https://movies.koshinva.nomoredomains.club')** (временно не актуально)
+
+:point_right: демо-версия главной страницы и информации о проекте доступна на Vercel по **[ссылке](https://movies-explorer-frontend-five.vercel.app 'https://movies-explorer-frontend-five.vercel.app')**
 
 Репозиторий проекта на **GitHub**
 [![Github logo](./src/images/readme/logo_github_icon_143196.png)](https://github.com/koshinva/movies-explorer-frontend 'https://github.com/koshinva/movies-explorer-frontend')
